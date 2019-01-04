@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<resource majorVersion="1" minorVersion="9" useXmlUI="false">
+    <image name="font.png"  />
+    <image name="GUIBuilder.png"  />
+    <image name="images.png"  />
+    <ui name="Main" />
+    <ui name="New Memory" />
+    <theme name="Theme">
+        <val key="@includeNativeBool" value="true" />
+    </theme>
+    <image name="theme.png"  />
+</resource>

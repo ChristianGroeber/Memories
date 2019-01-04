@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" layout="LayeredLayout" layeredLayoutPreferredWidthMM="0.0" layeredLayoutPreferredHeightMM="0.0"  autolayout="true" title="Memories" scrollableY="false" name="GuiComponent">
+  <component type="Button" uiid="btnNewMemory" text="New Memory" styles="bgImage:;" name="btnNewMemory" commandName="New Memory" commandId="0" commandVarName="createNewMemory" commandHasCode="true"  actionEvent="true">
+    <layoutConstraint insets="18.788626% auto auto 23.818897%" referenceComponents="-1 -1 -1 -1" referencePositions="0.0 0.0 0.0 0.0" />
+  </component>
+</component>

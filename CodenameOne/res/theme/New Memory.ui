@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="New Memory" cloudDestinationProperty="New Memory" >
+<command name="New Memory" id="2" action="$Back" backCommand="false" /></component>
