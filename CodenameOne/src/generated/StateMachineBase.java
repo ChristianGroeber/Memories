@@ -126,6 +126,18 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.ui.Button findBtnNewNote(Component root) {
+        return (com.codename1.ui.Button)findByName("btnNewNote", root);
+    }
+
+    public com.codename1.ui.Button findBtnNewNote() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnNewNote", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("btnNewNote", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.Button findBtnLaunchCamera(Component root) {
         return (com.codename1.ui.Button)findByName("btnLaunchCamera", root);
     }
@@ -182,6 +194,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Memories", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Container)findByName("Memories", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findBtnRecord(Component root) {
+        return (com.codename1.ui.Button)findByName("btnRecord", root);
+    }
+
+    public com.codename1.ui.Button findBtnRecord() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnRecord", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("btnRecord", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -421,6 +445,14 @@ public abstract class StateMachineBase extends UIBuilder {
                 onMain_BtnChooseImageAction(c, event);
                 return;
             }
+            if("btnRecord".equals(c.getName())) {
+                onMain_BtnRecordAction(c, event);
+                return;
+            }
+            if("btnNewNote".equals(c.getName())) {
+                onMain_BtnNewNoteAction(c, event);
+                return;
+            }
         }
     }
 
@@ -428,6 +460,12 @@ public abstract class StateMachineBase extends UIBuilder {
       }
 
       protected void onMain_BtnChooseImageAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMain_BtnRecordAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMain_BtnNewNoteAction(Component c, ActionEvent event) {
       }
 
 }

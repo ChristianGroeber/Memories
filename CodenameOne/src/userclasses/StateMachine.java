@@ -5,13 +5,18 @@
  */
 package userclasses;
 
+import ch.bbbaden.m335.memories.MyApplication;
 import com.codename1.capture.Capture;
+import com.codename1.components.MultiButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.ext.filechooser.FileChooser;
 import com.codename1.io.File;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.io.Util;
+import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.media.Media;
+import com.codename1.media.MediaManager;
 import com.codename1.notifications.LocalNotification;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
@@ -20,12 +25,15 @@ import com.codename1.ui.util.Resources;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author Your name here
  */
 public class StateMachine extends StateMachineBase {
+    private ArrayList<Memory> Memories = new ArrayList<>();
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -57,21 +65,91 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void onMain_BtnChooseImageAction(Component c, ActionEvent event) {
+        Form current = MyApplication.getCurrent();
         if (FileChooser.isAvailable()) {
-            FileChooser.showOpenDialog(".pdf,application/pdf,.gif,image/gif,.png,image/png,.jpg,image/jpg,.tif,image/tif,.jpeg,.bmp", e2-> {
-                    if(e2!=null && e2.getSource()!=null) {
-
-                        String file = (String)e2.getSource();
-                        try {
-                            Image img = Image.createImage(file);
-                            findImageViewer().setImage(img);
-                            if (true) return;
-                        } catch (Exception ex) {
-                            Log.e(ex);
+            FileChooser.showOpenDialog(".pdf,application/pdf,.gif,image/gif,.png,image/png,.jpg,image/jpg,.tif,image/tif,.jpeg,.bmp", e2 -> {
+                if (e2 != null && e2.getSource() != null) {
+                    String file = (String) e2.getSource();
+                    try {
+                        Image img = Image.createImage(file);
+                        current.add(new Label(img));
+                        if (true) {
+                            return;
                         }
+                    } catch (Exception ex) {
+                        Log.e(ex);
                     }
-               });
+                }
+            });
         }
     }
-}
 
+    @Override
+    protected void onMain_BtnRecordAction(Component c, ActionEvent event) {
+        FileSystemStorage fs = FileSystemStorage.getInstance();
+        String recordingsDir = fs.getAppHomePath() + "recordings/";
+        fs.mkdir(recordingsDir);
+        try {
+            for (String file : fs.listFiles(recordingsDir)) {
+                MultiButton mb = new MultiButton(file.substring(file.lastIndexOf("/") + 1));
+                mb.addActionListener((e) -> {
+                    try {
+                        Media m = MediaManager.createMedia(recordingsDir + file, false);
+                        m.play();
+                    } catch (IOException err) {
+                        Log.e(err);
+                    }
+                });
+                MyApplication.getCurrent().add(mb);
+            }
+            try {
+                String file = Capture.captureAudio();
+                if (file != null) {
+                    SimpleDateFormat sd = new SimpleDateFormat("yyyy-MMM-dd-kk-mm");
+                    String fileName = sd.format(new Date());
+                    String filePath = recordingsDir + fileName;
+                    Util.copy(fs.openInputStream(file), fs.openOutputStream(filePath));
+                    MultiButton mb = new MultiButton(fileName);
+                    mb.addActionListener((e) -> {
+                        try {
+                            Media m = MediaManager.createMedia(filePath, false);
+                            m.play();
+                        } catch (IOException err) {
+                            Log.e(err);
+                        }
+                    });
+                    MyApplication.getCurrent().add(mb);
+                    MyApplication.getCurrent().revalidate();
+                }
+            } catch (IOException err) {
+                Log.e(err);
+            }
+
+        } catch (IOException err) {
+            Log.e(err);
+        }
+
+    }
+
+    @Override
+    protected void onMain_BtnNewNoteAction(Component c, ActionEvent event) {
+        Form form = new Form("New Note");
+        TextField title = new TextField("Title...");
+        TextArea text = new TextArea("Write your Note here...");
+        form.add(title);
+        form.add(text);
+        Button save = new Button("Save");
+        form.add(save);
+        form.show();
+        save.addActionListener(e->{
+            Note note = new Note();
+            if(!title.getText().equals("")){
+                note.setTitle(title.getText());
+            }
+            if(!text.getText().equals("")){
+                note.setText(text.getText());
+            }
+        });
+        form.setHidden(true);
+    }
+}

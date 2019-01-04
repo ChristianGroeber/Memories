@@ -13,6 +13,10 @@
       </component>
       <component type="Button" name="btnChooseImage" cloudDestinationProperty="btnChooseImage" text="CHOOSE A PICTURE" >
       </component>
+      <component type="Button" name="btnRecord" cloudDestinationProperty="btnRecord" text="CREATE A RECORDING" >
+      </component>
+      <component type="Button" name="btnNewNote" cloudDestinationProperty="btnNewNote" text="WRITE A NOTE" >
+      </component>
       <component type="ImageViewer" name="ImageViewer" cloudDestinationProperty="ImageViewer" >
       </component>
     </component>
