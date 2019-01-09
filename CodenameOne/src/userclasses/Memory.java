@@ -5,22 +5,23 @@
  */
 package userclasses;
 
-import com.codename1.ui.Image;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  *
  * @author chris
  */
 public class Memory {
-    private final ArrayList<Image> images = new ArrayList<>();
+    private final ArrayList<MyImage> images = new ArrayList<>();
     private final ArrayList<Note> notes = new ArrayList<>();
+    private Date date = new Date();
     
     public Memory(){
         
     }
     
-    public void addImage(Image image){
+    public void addImage(MyImage image){
         images.add(image);
     }
     
@@ -28,12 +29,20 @@ public class Memory {
         notes.add(note);
     }
 
-    public ArrayList<Image> getImages() {
+    public ArrayList<MyImage> getImages() {
         return images;
     }
 
     public ArrayList<Note> getNotes() {
         return notes;
+    }
+    
+    public Date getDate(){
+        return date;
+    }
+    
+    public void setDate(Date date){
+        this.date = date;
     }
     
     

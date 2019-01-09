@@ -32,6 +32,7 @@ public class StateMachine extends StateMachineBase {
 
     private ArrayList<Memory> memories = new ArrayList<>();
     private Notes notes;
+    private String apiKey;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -54,6 +55,8 @@ public class StateMachine extends StateMachineBase {
             Image img = null;
             try {
                 img = Image.createImage(i);
+                MyImage image = new MyImage();
+                image.setImage(img);
             } catch (IOException ex) {
                 System.out.println("ex = " + ex);
             }
@@ -71,6 +74,8 @@ public class StateMachine extends StateMachineBase {
                     String file = (String) e2.getSource();
                     try {
                         Image img = Image.createImage(file);
+                        MyImage myImage = new MyImage();
+                        myImage.setImage(img);
                         current.add(new Label(img));
                         if (true) {
                             return;

@@ -1,3 +1,5 @@
 /CodenameOne/nbproject/private/
 /CodenameOne/build/
 /CodenameOne/dist/
+CodenameOne/src/apikey
+CodenameOne/src/userclasses/ApiKey.java
