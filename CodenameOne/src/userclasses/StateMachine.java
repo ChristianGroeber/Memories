@@ -8,32 +8,30 @@ package userclasses;
 import ch.bbbaden.m335.memories.MyApplication;
 import com.codename1.capture.Capture;
 import com.codename1.components.MultiButton;
-import com.codename1.components.SpanLabel;
 import com.codename1.ext.filechooser.FileChooser;
-import com.codename1.io.File;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.io.Util;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
-import com.codename1.notifications.LocalNotification;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
  * @author Your name here
  */
 public class StateMachine extends StateMachineBase {
-    private ArrayList<Memory> Memories = new ArrayList<>();
+
+    private ArrayList<Memory> memories = new ArrayList<>();
+    private Notes notes;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -46,6 +44,7 @@ public class StateMachine extends StateMachineBase {
      * constructor/class scope to avoid race conditions
      */
     protected void initVars(Resources res) {
+        notes = new Notes();
     }
 
     @Override
@@ -133,23 +132,41 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void onMain_BtnNewNoteAction(Component c, ActionEvent event) {
-        Form form = new Form("New Note");
-        TextField title = new TextField("Title...");
-        TextArea text = new TextArea("Write your Note here...");
-        form.add(title);
-        form.add(text);
-        Button save = new Button("Save");
-        form.add(save);
-        form.show();
-        save.addActionListener(e->{
-            Note note = new Note();
-            if(!title.getText().equals("")){
-                note.setTitle(title.getText());
+        showForm("New Note", null);
+    }
+
+    @Override
+    protected void onMain_BtnLoadMemoriesAction(Component c, ActionEvent event) {
+
+        Container container = findConMemories();
+        for (Memory i : memories) {
+            for (Note x : i.getNotes()) {
+                Label title = new Label(x.getTitle());
+                Label text = new Label(x.getText());
+                container.add(title);
+                container.add(text);
             }
-            if(!text.getText().equals("")){
-                note.setText(text.getText());
-            }
-        });
-        form.setHidden(true);
+        }
+    }
+
+    @Override
+    protected void onNewNote_BtnSaveNoteAction(Component c, ActionEvent event) {
+        KeyValue value = new KeyValue();
+        Note note = new Note();
+        if (!findTxtTitle().getText().equals("")) {
+            note.setTitle(findTxtTitle().getText());
+        }
+        if (!findTxtText().getText().equals("")) {
+            note.setText(findTxtText().getText());
+        }
+        notes.addNote(note);
+        value.save(notes);
+        back();
+
+    }
+
+    @Override
+    protected void beforeMain(Form f) {
+    
     }
 }

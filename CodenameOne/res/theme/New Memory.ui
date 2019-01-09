@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="New Memory" cloudDestinationProperty="New Memory" >
+<component type="Form" name="New Memory" cloudDestinationProperty="New Memory" title="New Note" >
 <command name="New Memory" id="2" action="$Back" backCommand="false" /></component>

@@ -5,7 +5,7 @@
     <image name="GUIBuilder.png"  />
     <image name="images.png"  />
     <ui name="Main" />
-    <ui name="New Memory" />
+    <ui name="New Note" />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
     </theme>

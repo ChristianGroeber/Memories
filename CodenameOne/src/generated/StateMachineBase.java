@@ -35,7 +35,9 @@ public abstract class StateMachineBase extends UIBuilder {
         initVars();
         UIBuilder.registerCustomComponent("Container", com.codename1.ui.Container.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("TextArea", com.codename1.ui.TextArea.class);
         UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
+        UIBuilder.registerCustomComponent("TextField", com.codename1.ui.TextField.class);
         UIBuilder.registerCustomComponent("Tabs", com.codename1.ui.Tabs.class);
         UIBuilder.registerCustomComponent("ImageViewer", com.codename1.components.ImageViewer.class);
         if(loadTheme) {
@@ -74,7 +76,9 @@ public abstract class StateMachineBase extends UIBuilder {
         initVars();
         UIBuilder.registerCustomComponent("Container", com.codename1.ui.Container.class);
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
+        UIBuilder.registerCustomComponent("TextArea", com.codename1.ui.TextArea.class);
         UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
+        UIBuilder.registerCustomComponent("TextField", com.codename1.ui.TextField.class);
         UIBuilder.registerCustomComponent("Tabs", com.codename1.ui.Tabs.class);
         UIBuilder.registerCustomComponent("ImageViewer", com.codename1.components.ImageViewer.class);
         if(loadTheme) {
@@ -114,14 +118,26 @@ public abstract class StateMachineBase extends UIBuilder {
         this(res, null, loadTheme);
     }
 
-    public com.codename1.ui.Button findBtnChooseImage(Component root) {
-        return (com.codename1.ui.Button)findByName("btnChooseImage", root);
+    public com.codename1.ui.Button findBtnSaveNote(Component root) {
+        return (com.codename1.ui.Button)findByName("btnSaveNote", root);
     }
 
-    public com.codename1.ui.Button findBtnChooseImage() {
-        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnChooseImage", Display.getInstance().getCurrent());
+    public com.codename1.ui.Button findBtnSaveNote() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnSaveNote", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Button)findByName("btnChooseImage", aboutToShowThisContainer);
+            cmp = (com.codename1.ui.Button)findByName("btnSaveNote", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findBtnLoadMemories(Component root) {
+        return (com.codename1.ui.Button)findByName("btnLoadMemories", root);
+    }
+
+    public com.codename1.ui.Button findBtnLoadMemories() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnLoadMemories", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("btnLoadMemories", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -134,6 +150,42 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnNewNote", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Button)findByName("btnNewNote", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Container findNewMemory(Component root) {
+        return (com.codename1.ui.Container)findByName("newMemory", root);
+    }
+
+    public com.codename1.ui.Container findNewMemory() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("newMemory", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Container)findByName("newMemory", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Button findBtnChooseImage(Component root) {
+        return (com.codename1.ui.Button)findByName("btnChooseImage", root);
+    }
+
+    public com.codename1.ui.Button findBtnChooseImage() {
+        com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnChooseImage", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Button)findByName("btnChooseImage", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.Container findConMemories(Component root) {
+        return (com.codename1.ui.Container)findByName("conMemories", root);
+    }
+
+    public com.codename1.ui.Container findConMemories() {
+        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("conMemories", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.Container)findByName("conMemories", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -162,18 +214,6 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public com.codename1.ui.Container findNewMemory(Component root) {
-        return (com.codename1.ui.Container)findByName("newMemory", root);
-    }
-
-    public com.codename1.ui.Container findNewMemory() {
-        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("newMemory", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Container)findByName("newMemory", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
     public com.codename1.components.ImageViewer findImageViewer(Component root) {
         return (com.codename1.components.ImageViewer)findByName("ImageViewer", root);
     }
@@ -182,18 +222,6 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.components.ImageViewer cmp = (com.codename1.components.ImageViewer)findByName("ImageViewer", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.components.ImageViewer)findByName("ImageViewer", aboutToShowThisContainer);
-        }
-        return cmp;
-    }
-
-    public com.codename1.ui.Container findMemories(Component root) {
-        return (com.codename1.ui.Container)findByName("Memories", root);
-    }
-
-    public com.codename1.ui.Container findMemories() {
-        com.codename1.ui.Container cmp = (com.codename1.ui.Container)findByName("Memories", Display.getInstance().getCurrent());
-        if(cmp == null && aboutToShowThisContainer != null) {
-            cmp = (com.codename1.ui.Container)findByName("Memories", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -210,30 +238,33 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
-    public static final int COMMAND_NewMemoryNewMemory = 2;
-
-    protected boolean onNewMemoryNewMemory() {
-        return false;
+    public com.codename1.ui.TextField findTxtTitle(Component root) {
+        return (com.codename1.ui.TextField)findByName("txtTitle", root);
     }
 
-    protected void processCommand(ActionEvent ev, Command cmd) {
-        switch(cmd.getId()) {
-            case COMMAND_NewMemoryNewMemory:
-                if(onNewMemoryNewMemory()) {
-                    ev.consume();
-                    return;
-                }
-                break;
+    public com.codename1.ui.TextField findTxtTitle() {
+        com.codename1.ui.TextField cmp = (com.codename1.ui.TextField)findByName("txtTitle", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.TextField)findByName("txtTitle", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
 
+    public com.codename1.ui.TextArea findTxtText(Component root) {
+        return (com.codename1.ui.TextArea)findByName("txtText", root);
+    }
+
+    public com.codename1.ui.TextArea findTxtText() {
+        com.codename1.ui.TextArea cmp = (com.codename1.ui.TextArea)findByName("txtText", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.TextArea)findByName("txtText", aboutToShowThisContainer);
         }
-        if(ev.getComponent() != null) {
-            handleComponentAction(ev.getComponent(), ev);
-        }
+        return cmp;
     }
 
     protected void exitForm(Form f) {
-        if("New Memory".equals(f.getName())) {
-            exitNewMemory(f);
+        if("New Note".equals(f.getName())) {
+            exitNewNote(f);
             aboutToShowThisContainer = null;
             return;
         }
@@ -248,7 +279,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void exitNewMemory(Form f) {
+    protected void exitNewNote(Form f) {
     }
 
 
@@ -257,8 +288,8 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void beforeShow(Form f) {
     aboutToShowThisContainer = f;
-        if("New Memory".equals(f.getName())) {
-            beforeNewMemory(f);
+        if("New Note".equals(f.getName())) {
+            beforeNewNote(f);
             aboutToShowThisContainer = null;
             return;
         }
@@ -273,7 +304,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void beforeNewMemory(Form f) {
+    protected void beforeNewNote(Form f) {
     }
 
 
@@ -282,8 +313,8 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void beforeShowContainer(Container c) {
         aboutToShowThisContainer = c;
-        if("New Memory".equals(c.getName())) {
-            beforeContainerNewMemory(c);
+        if("New Note".equals(c.getName())) {
+            beforeContainerNewNote(c);
             aboutToShowThisContainer = null;
             return;
         }
@@ -298,7 +329,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void beforeContainerNewMemory(Container c) {
+    protected void beforeContainerNewNote(Container c) {
     }
 
 
@@ -306,8 +337,8 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void postShow(Form f) {
-        if("New Memory".equals(f.getName())) {
-            postNewMemory(f);
+        if("New Note".equals(f.getName())) {
+            postNewNote(f);
             aboutToShowThisContainer = null;
             return;
         }
@@ -322,7 +353,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void postNewMemory(Form f) {
+    protected void postNewNote(Form f) {
     }
 
 
@@ -330,8 +361,8 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void postShowContainer(Container c) {
-        if("New Memory".equals(c.getName())) {
-            postContainerNewMemory(c);
+        if("New Note".equals(c.getName())) {
+            postContainerNewNote(c);
             aboutToShowThisContainer = null;
             return;
         }
@@ -346,7 +377,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void postContainerNewMemory(Container c) {
+    protected void postContainerNewNote(Container c) {
     }
 
 
@@ -354,8 +385,8 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
     protected void onCreateRoot(String rootName) {
-        if("New Memory".equals(rootName)) {
-            onCreateNewMemory();
+        if("New Note".equals(rootName)) {
+            onCreateNewNote();
             aboutToShowThisContainer = null;
             return;
         }
@@ -370,7 +401,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void onCreateNewMemory() {
+    protected void onCreateNewNote() {
     }
 
 
@@ -379,8 +410,8 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected Hashtable getFormState(Form f) {
         Hashtable h = super.getFormState(f);
-        if("New Memory".equals(f.getName())) {
-            getStateNewMemory(f, h);
+        if("New Note".equals(f.getName())) {
+            getStateNewNote(f, h);
             aboutToShowThisContainer = null;
             return h;
         }
@@ -395,7 +426,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void getStateNewMemory(Form f, Hashtable h) {
+    protected void getStateNewNote(Form f, Hashtable h) {
     }
 
 
@@ -404,8 +435,8 @@ public abstract class StateMachineBase extends UIBuilder {
 
     protected void setFormState(Form f, Hashtable state) {
         super.setFormState(f, state);
-        if("New Memory".equals(f.getName())) {
-            setStateNewMemory(f, state);
+        if("New Note".equals(f.getName())) {
+            setStateNewNote(f, state);
             aboutToShowThisContainer = null;
             return;
         }
@@ -420,7 +451,7 @@ public abstract class StateMachineBase extends UIBuilder {
     }
 
 
-    protected void setStateNewMemory(Form f, Hashtable state) {
+    protected void setStateNewNote(Form f, Hashtable state) {
     }
 
 
@@ -436,7 +467,25 @@ public abstract class StateMachineBase extends UIBuilder {
             c = c.getParent().getLeadParent();
         }
         if(rootContainerName == null) return;
+        if(rootContainerName.equals("New Note")) {
+            if("txtTitle".equals(c.getName())) {
+                onNewNote_TxtTitleAction(c, event);
+                return;
+            }
+            if("txtText".equals(c.getName())) {
+                onNewNote_TxtTextAction(c, event);
+                return;
+            }
+            if("btnSaveNote".equals(c.getName())) {
+                onNewNote_BtnSaveNoteAction(c, event);
+                return;
+            }
+        }
         if(rootContainerName.equals("Main")) {
+            if("btnLoadMemories".equals(c.getName())) {
+                onMain_BtnLoadMemoriesAction(c, event);
+                return;
+            }
             if("btnLaunchCamera".equals(c.getName())) {
                 onMain_BtnLaunchCameraAction(c, event);
                 return;
@@ -455,6 +504,18 @@ public abstract class StateMachineBase extends UIBuilder {
             }
         }
     }
+
+      protected void onNewNote_TxtTitleAction(Component c, ActionEvent event) {
+      }
+
+      protected void onNewNote_TxtTextAction(Component c, ActionEvent event) {
+      }
+
+      protected void onNewNote_BtnSaveNoteAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMain_BtnLoadMemoriesAction(Component c, ActionEvent event) {
+      }
 
       protected void onMain_BtnLaunchCameraAction(Component c, ActionEvent event) {
       }

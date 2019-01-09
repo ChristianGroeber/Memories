@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<component type="Form" name="New Note" cloudDestinationProperty="New Note" layout="BoxLayout" boxLayoutAxis="Y" title="New Note" >
+  <component type="TextField" name="txtTitle" cloudBoundProperty="text" cloudDestinationProperty="txtTitle" text="" hint="Title..." >
+  </component>
+  <component type="TextArea" name="txtText" cloudBoundProperty="text" cloudDestinationProperty="txtText" text="" hint="Text..." >
+  </component>
+  <component type="Button" name="btnSaveNote" cloudDestinationProperty="btnSaveNote" text="SAVE" >
+  </component>
+</component>

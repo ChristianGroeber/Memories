@@ -4,11 +4,13 @@
   <component type="Tabs" name="Tabs" cloudDestinationProperty="Tabs" >
     <custom name="titles" type="java.lang.String" array="true" dimensions="1" >
       <str>Memories</str>
-      <str>New Memory</str>
+      <str>Today's Memory</str>
     </custom>
-    <component type="Container" name="Memories" tabTitle="Memories" cloudDestinationProperty="Memories" >
+    <component type="Container" name="conMemories" tabTitle="Memories" cloudDestinationProperty="Memories" >
+      <component type="Button" name="btnLoadMemories" cloudDestinationProperty="btnLoadMemories" text="LOAD MEMORIES" >
+      </component>
     </component>
-    <component type="Container" name="newMemory" tabTitle="New Memory" cloudDestinationProperty="newMemory" layout="BoxLayout" boxLayoutAxis="Y" >
+    <component type="Container" name="newMemory" tabTitle="Today's Memory" cloudDestinationProperty="newMemory" layout="BoxLayout" boxLayoutAxis="Y" >
       <component type="Button" name="btnLaunchCamera" cloudDestinationProperty="btnLaunchCamera" text="OPEN CAMERA" >
       </component>
       <component type="Button" name="btnChooseImage" cloudDestinationProperty="btnChooseImage" text="CHOOSE A PICTURE" >
