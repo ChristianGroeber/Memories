@@ -11,7 +11,9 @@ import com.codename1.components.MultiButton;
 import com.codename1.ext.filechooser.FileChooser;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
+import com.codename1.io.Storage;
 import com.codename1.io.Util;
+import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.media.Media;
 import com.codename1.media.MediaManager;
@@ -20,9 +22,8 @@ import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Set;
 
 /**
  *
@@ -170,12 +171,25 @@ public class StateMachine extends StateMachineBase {
 
     }
 
+    private void save() {
+        Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
+    }
+
     @Override
     protected void beforeMain(Form f) {
-        
+        memories = new Memories();
+        try {
+            memories.setMemories((Set<String>) Storage.getInstance().readObject("Saved Data"));
+        } catch (ParseException ex) {
+            System.out.println("ex = " + ex);
+        } catch (IOException ex) {
+            System.out.println("ex = " + ex);
+        } catch (java.text.ParseException ex) {
+            System.out.println("ex = " + ex);
+        }
     }
-    
-    private void loadMemories(){
+
+    private void loadMemories() {
         memories = new Memories();
     }
 }

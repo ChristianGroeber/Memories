@@ -32,5 +32,13 @@ public class Notes {
     public void deleteNote(final Note note) {
         notes.remove(note);
     }
+    
+//    public Set<String> toSet(){
+//        Set<String> setNotes = new HashSet<>();
+//        for(Note i : notes){
+//            
+//        }
+//        return setNotes;
+//    }
 
 }

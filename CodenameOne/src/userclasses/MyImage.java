@@ -16,17 +16,20 @@ import com.codename1.ui.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 /**
  *
  * @author chris
  */
 public class MyImage {
+
     private Image image;
     private String gps;
     private String location;
@@ -40,14 +43,16 @@ public class MyImage {
         this.location = location;
         this.temperature = temperature;
     }
-    
-    public MyImage(){
+
+    public MyImage() {
         Location gps = LocationManager.getLocationManager().getCurrentLocationSync();
         Coord coord = new Coord(gps.getLatitude(), gps.getLongitude());
         location = getFormattedAddress(coord);
-        
+
         System.out.println(gps);
-    };
+    }
+
+    ;
     
     public static String getFormattedAddress(Coord coord) {
         String ret = "";
@@ -60,15 +65,15 @@ public class MyImage {
             Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
             if (response.get("results") != null) {
                 ArrayList results = (ArrayList) response.get("results");
-                if (results.size() > 0)
+                if (results.size() > 0) {
                     ret = (String) ((LinkedHashMap) results.get(0)).get("formatted_address");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return ret;
     }
-
 
     public Image getImage() {
         return image;
@@ -102,9 +107,10 @@ public class MyImage {
         this.temperature = temperature;
     }
     
+    
+    private final SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
     @Override
-    public String toString(){
-        SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+    public String toString() {
         String str = "";
         str += image.toString() + "\\";
         str += sd.format(date) + "\\";
@@ -113,6 +119,17 @@ public class MyImage {
         str += temperature;
         return str;
     }
-    
-    
+
+    public MyImage fromString(String myImage) throws IOException, ParseException {
+        StringTokenizer tokenizer = new StringTokenizer(myImage, "\\");
+        String strImage = tokenizer.nextToken();
+        String strDate = tokenizer.nextToken();
+        gps = tokenizer.nextToken();
+        location = tokenizer.nextToken();
+        temperature = tokenizer.nextToken();
+        this.image = Image.createImage(strImage);
+        this.date = sd.parse(strDate);
+        return this;
+    }
+
 }

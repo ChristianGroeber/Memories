@@ -5,14 +5,17 @@
  */
 package userclasses;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 /**
  *
  * @author chris
  */
 public class Note {
+
     private String title;
     private String text;
     private Date date;
@@ -32,15 +35,24 @@ public class Note {
     public void setText(String text) {
         this.text = text;
     }
-    
+
+    SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+
     @Override
-    public String toString(){
-        SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+    public String toString() {
         String str = "";
         str += title + "\\" + text + "\\";
         str += sd.format(date);
-        
+
         return str;
     }
-    
+
+    public Note fromString(String strNote) throws ParseException {
+        StringTokenizer tokenizer = new StringTokenizer(strNote, "\\");
+        title = tokenizer.nextToken();
+        text = tokenizer.nextToken();
+        date = sd.parse(tokenizer.nextToken());
+        return this;
+    }
+
 }
