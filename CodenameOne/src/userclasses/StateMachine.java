@@ -30,9 +30,8 @@ import java.util.HashMap;
  */
 public class StateMachine extends StateMachineBase {
 
-    private ArrayList<Memory> memories = new ArrayList<>();
+    private Memories memories;
     private Notes notes;
-    private String apiKey;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -46,6 +45,7 @@ public class StateMachine extends StateMachineBase {
      */
     protected void initVars(Resources res) {
         notes = new Notes();
+        System.out.println("\\\\");
     }
 
     @Override
@@ -144,7 +144,7 @@ public class StateMachine extends StateMachineBase {
     protected void onMain_BtnLoadMemoriesAction(Component c, ActionEvent event) {
 
         Container container = findConMemories();
-        for (Memory i : memories) {
+        for (Memory i : memories.getMemories()) {
             for (Note x : i.getNotes()) {
                 Label title = new Label(x.getTitle());
                 Label text = new Label(x.getText());
@@ -172,6 +172,10 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void beforeMain(Form f) {
+        
+    }
     
+    private void loadMemories(){
+        memories = new Memories();
     }
 }

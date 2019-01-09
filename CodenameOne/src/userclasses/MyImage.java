@@ -16,7 +16,9 @@ import com.codename1.ui.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,6 +32,7 @@ public class MyImage {
     private String location;
     private String temperature;
     private static String apiKey = new ApiKey().getKey();
+    private Date date;
 
     public MyImage(Image image, String gps, String location, String temperature) {
         this.image = image;
@@ -97,6 +100,18 @@ public class MyImage {
 
     public void setTemperature(String temperature) {
         this.temperature = temperature;
+    }
+    
+    @Override
+    public String toString(){
+        SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+        String str = "";
+        str += image.toString() + "\\";
+        str += sd.format(date) + "\\";
+        str += gps + "\\";
+        str += location + "\\";
+        str += temperature;
+        return str;
     }
     
     

@@ -5,6 +5,9 @@
  */
 package userclasses;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  *
  * @author chris
@@ -12,6 +15,7 @@ package userclasses;
 public class Note {
     private String title;
     private String text;
+    private Date date;
 
     public String getTitle() {
         return title;
@@ -27,6 +31,16 @@ public class Note {
 
     public void setText(String text) {
         this.text = text;
+    }
+    
+    @Override
+    public String toString(){
+        SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+        String str = "";
+        str += title + "\\" + text + "\\";
+        str += sd.format(date);
+        
+        return str;
     }
     
 }

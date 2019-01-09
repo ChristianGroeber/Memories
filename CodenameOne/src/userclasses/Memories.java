@@ -7,6 +7,7 @@ package userclasses;
 
 import com.codename1.l10n.ParseException;
 import com.codename1.l10n.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -19,6 +20,11 @@ import java.util.Set;
 public class Memories {
     private Memory todaysMemory;
     private Set<Memory> memories = new HashSet<>();
+    private ArrayList<Memory> arrMemories = new ArrayList<>();
+    
+    public Memories(){
+        
+    }
     
     public void setMemories(Set<Memory> memories) throws ParseException{
         this.memories = memories;
@@ -42,6 +48,14 @@ public class Memories {
     
     public Memory getTodaysMemory(){
         return this.todaysMemory;
+    }
+    
+    public Set<String> toHashSet(){
+        Set<String> memories = new HashSet<>();
+        for(Memory i : arrMemories){
+            memories.add(i.toString());
+        }
+        return memories;
     }
     
     

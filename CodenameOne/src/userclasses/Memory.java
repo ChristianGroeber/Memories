@@ -5,6 +5,7 @@
  */
 package userclasses;
 
+import com.codename1.l10n.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -16,6 +17,7 @@ public class Memory {
     private final ArrayList<MyImage> images = new ArrayList<>();
     private final ArrayList<Note> notes = new ArrayList<>();
     private Date date = new Date();
+    private String title = "";
     
     public Memory(){
         
@@ -45,5 +47,20 @@ public class Memory {
         this.date = date;
     }
     
-    
+    @Override
+    public String toString(){
+        SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
+        String str = "";
+        str += sd.format(date) + "///";
+        for(MyImage i : images){
+            str += i.toString() + "\\\\";
+        }
+        str += "///";
+        
+        for(Note i : notes){
+            str += i.toString() + "\\\\";
+        }
+        str += "///";
+        return str;
+    }
 }
