@@ -22,6 +22,7 @@ public class Memories {
     private Memory todaysMemory;
     private ArrayList<Memory> memories = new ArrayList<>();
     private ArrayList<Memory> arrMemories = new ArrayList<>();
+    private Boolean dev = false;
 
     public Memories() {
 
@@ -72,5 +73,15 @@ public class Memories {
         }
         return memories;
     }
+
+    public Boolean isDev() {
+        return dev;
+    }
+
+    public void setDev(Boolean dev) {
+        this.dev = dev;
+    }
+    
+    
 
 }

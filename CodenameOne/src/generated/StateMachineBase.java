@@ -37,6 +37,7 @@ public abstract class StateMachineBase extends UIBuilder {
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("TextArea", com.codename1.ui.TextArea.class);
         UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
+        UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
         UIBuilder.registerCustomComponent("TextField", com.codename1.ui.TextField.class);
         UIBuilder.registerCustomComponent("Tabs", com.codename1.ui.Tabs.class);
         UIBuilder.registerCustomComponent("ImageViewer", com.codename1.components.ImageViewer.class);
@@ -78,6 +79,7 @@ public abstract class StateMachineBase extends UIBuilder {
         UIBuilder.registerCustomComponent("Form", com.codename1.ui.Form.class);
         UIBuilder.registerCustomComponent("TextArea", com.codename1.ui.TextArea.class);
         UIBuilder.registerCustomComponent("Button", com.codename1.ui.Button.class);
+        UIBuilder.registerCustomComponent("CheckBox", com.codename1.ui.CheckBox.class);
         UIBuilder.registerCustomComponent("TextField", com.codename1.ui.TextField.class);
         UIBuilder.registerCustomComponent("Tabs", com.codename1.ui.Tabs.class);
         UIBuilder.registerCustomComponent("ImageViewer", com.codename1.components.ImageViewer.class);
@@ -150,6 +152,18 @@ public abstract class StateMachineBase extends UIBuilder {
         com.codename1.ui.Button cmp = (com.codename1.ui.Button)findByName("btnNewNote", Display.getInstance().getCurrent());
         if(cmp == null && aboutToShowThisContainer != null) {
             cmp = (com.codename1.ui.Button)findByName("btnNewNote", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
+    public com.codename1.ui.CheckBox findBoxDeveloper(Component root) {
+        return (com.codename1.ui.CheckBox)findByName("boxDeveloper", root);
+    }
+
+    public com.codename1.ui.CheckBox findBoxDeveloper() {
+        com.codename1.ui.CheckBox cmp = (com.codename1.ui.CheckBox)findByName("boxDeveloper", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.ui.CheckBox)findByName("boxDeveloper", aboutToShowThisContainer);
         }
         return cmp;
     }
@@ -482,6 +496,10 @@ public abstract class StateMachineBase extends UIBuilder {
             }
         }
         if(rootContainerName.equals("Main")) {
+            if("boxDeveloper".equals(c.getName())) {
+                onMain_BoxDeveloperAction(c, event);
+                return;
+            }
             if("btnLoadMemories".equals(c.getName())) {
                 onMain_BtnLoadMemoriesAction(c, event);
                 return;
@@ -512,6 +530,9 @@ public abstract class StateMachineBase extends UIBuilder {
       }
 
       protected void onNewNote_BtnSaveNoteAction(Component c, ActionEvent event) {
+      }
+
+      protected void onMain_BoxDeveloperAction(Component c, ActionEvent event) {
       }
 
       protected void onMain_BtnLoadMemoriesAction(Component c, ActionEvent event) {

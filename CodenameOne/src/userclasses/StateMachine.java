@@ -22,12 +22,13 @@ import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
 import com.codename1.ui.layouts.BoxLayout;
+import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  *
@@ -39,6 +40,7 @@ public class StateMachine extends StateMachineBase {
     private Notes notes;
     private ArrayList<Memory> arrMemories;
     private ArrayList<Memory> memoriesOnForm = new ArrayList<>();
+    private Boolean dev = false;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -61,14 +63,21 @@ public class StateMachine extends StateMachineBase {
         if (i != null) {
             Image img = null;
             try {
+                String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + System.currentTimeMillis() + ".jpg";
+                System.out.println("pathToBeStored = " + pathToBeStored);
                 img = Image.createImage(i);
+                OutputStream out = FileSystemStorage.getInstance().openOutputStream(pathToBeStored);
+                ImageIO.getImageIO().save(img, out, ImageIO.FORMAT_JPEG, 0.9f);
+                out.close();
                 MyImage image = new MyImage();
-                image.setImage(img);
+                image.setImagePath(pathToBeStored);
                 image.toString();
                 memories.getTodaysMemory().addImage(image);
                 putMemoryInForm(memories.getTodaysMemory());
             } catch (IOException ex) {
-                System.out.println("ex = " + ex);
+                if (dev) {
+                    Dialog.show("Error", ex.toString(), "OK", null);
+                }
             }
             findImageViewer().setImage(img);
         }
@@ -83,9 +92,13 @@ public class StateMachine extends StateMachineBase {
                 if (e2 != null && e2.getSource() != null) {
                     String file = (String) e2.getSource();
                     try {
+                        String pathToBeStored = FileSystemStorage.getInstance().getAppHomePath() + System.currentTimeMillis() + ".jpg";
                         Image img = Image.createImage(file);
+                        OutputStream out = FileSystemStorage.getInstance().openOutputStream(pathToBeStored);
+                        ImageIO.getImageIO().save(img, out, ImageIO.FORMAT_JPEG, 0.9f);
+                        out.close();
                         MyImage myImage = new MyImage();
-                        myImage.setImage(img);
+                        myImage.setImagePath(pathToBeStored);
                         myImage.toString();
                         current.add(new Label(img));
                         memories.getTodaysMemory().addImage(myImage);
@@ -94,6 +107,9 @@ public class StateMachine extends StateMachineBase {
                             return;
                         }
                     } catch (Exception ex) {
+                        if (dev) {
+                            Dialog.show("Error", ex.toString(), "OK", null);
+                        }
                         Log.e(ex);
                     }
                 }
@@ -114,6 +130,9 @@ public class StateMachine extends StateMachineBase {
                         Media m = MediaManager.createMedia(recordingsDir + file, false);
                         m.play();
                     } catch (IOException err) {
+                        if (dev) {
+                            Dialog.show("Error Recorder", err.toString(), "OK", null);
+                        }
                         Log.e(err);
                     }
                 });
@@ -132,6 +151,9 @@ public class StateMachine extends StateMachineBase {
                             Media m = MediaManager.createMedia(filePath, false);
                             m.play();
                         } catch (IOException err) {
+                            if (dev) {
+                                Dialog.show("Error Recorder", err.toString(), "OK", null);
+                            }
                             Log.e(err);
                         }
                     });
@@ -139,10 +161,16 @@ public class StateMachine extends StateMachineBase {
                     MyApplication.getCurrent().revalidate();
                 }
             } catch (IOException err) {
+                if (dev) {
+                    Dialog.show("Error Recorder", err.toString(), "OK", null);
+                }
                 Log.e(err);
             }
 
         } catch (IOException err) {
+            if (dev) {
+                Dialog.show("Error Recorder", err.toString(), "OK", null);
+            }
             Log.e(err);
         }
 
@@ -162,6 +190,13 @@ public class StateMachine extends StateMachineBase {
                 putMemoryInForm(i);
             } catch (NullPointerException e) {
                 System.out.println("error error error");
+                if (dev) {
+                    Dialog.show("Error Load Memories", e.toString(), "OK", null);
+                }
+            } catch (IOException ex) {
+                if (dev) {
+                    Dialog.show("Error", ex.toString(), "OK", null);
+                }
             }
         }
 //        Container container = findConMemories();
@@ -192,46 +227,66 @@ public class StateMachine extends StateMachineBase {
         back();
     }
 
-    private void save() {
+    private void save() throws IOException {
         Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
+        String home = FileSystemStorage.getInstance().getAppHomePath();
+        for (Memory i : arrMemories) {
+            OutputStream os = FileSystemStorage.getInstance().openOutputStream(home + i.getPath());
+            DataOutputStream dos = new DataOutputStream(os);
+            dos.writeChars(i.toString());
+            dos.flush();
+            dos.close();
+        }
     }
 
-    private void putMemoryInForm(Memory mem) {
-            memoriesOnForm.add(mem);
-            ArrayList<MyImage> img = mem.getImages();
-            ArrayList<Note> notes = mem.getNotes();
-            Container con = new Container(BoxLayout.y());
-            con.setUIID(mem.getDate().toString());
-            ArrayList<Component> containers = (ArrayList<Component>) findConMemories().getChildrenAsList(true);
-            for(Component i : containers){
-                if(i.getUIID().equals(con.getUIID())){
-                    System.out.println("found double container");
-                    findConMemories().removeComponent(i);
-                }
+    private void putMemoryInForm(Memory mem) throws IOException {
+        memoriesOnForm.add(mem);
+        ArrayList<MyImage> img = mem.getImages();
+        ArrayList<Note> notes = mem.getNotes();
+        Container con = new Container(BoxLayout.y());
+        con.setEnabled(false);
+        con.setUIID(mem.getDate().toString());
+        ArrayList<Component> containers = (ArrayList<Component>) findConMemories().getChildrenAsList(true);
+        for (Component i : containers) {
+            if (i.getUIID().equals(con.getUIID())) {
+                System.out.println("found double container");
+                findConMemories().removeComponent(i);
             }
-            TextField txtTitle = new TextField(mem.getTitle());
-            con.add(txtTitle);
-            if (!img.isEmpty()) {
-                for (MyImage i : img) {
-                    addImageToForm(i, con);
-                }
+        }
+        TextField txtTitle = new TextField(mem.getTitle());
+        con.add(txtTitle);
+        if (!img.isEmpty()) {
+            for (MyImage i : img) {
+                addImageToForm(i, con);
             }
-            if (!notes.isEmpty()) {
-                for (Note i : notes) {
-                    addNoteToForm(i, con);
-                }
+        }
+        if (!notes.isEmpty()) {
+            for (Note i : notes) {
+                addNoteToForm(i, con);
             }
-            try {
-                findConMemories().addComponent(con); //need to do this after loading
-            } catch (Exception e) {
-                System.out.println("e = " + e + "\nCurrent working form: " + Display.getInstance().getCurrent().getTitle());
+        }
+        try {
+            findConMemories().addComponent(con); //need to do this after loading
+        } catch (Exception e) {
+            if (dev) {
+                Dialog.show("Error", "Error while putting Memory to Form\nCurrent working form: " + Display.getInstance().getCurrent().getTitle());
             }
-            save();
+        }
+        save();
     }
 
     private void addImageToForm(MyImage i, Container con) {
         ImageViewer imgViewer = new ImageViewer();
-        imgViewer.setImage(i.getImage());
+        if (i.getImagePath() != null) {
+            try {
+                Image img = Image.createImage(FileSystemStorage.getInstance().openInputStream(i.getImagePath()));
+                imgViewer.setImage(img);
+            } catch (Exception e) {
+                if (dev) {
+                    Dialog.show("Error", "Error during image loading: " + e, "OK", null);
+                }
+            }
+        }
         con.add(imgViewer);
     }
 
@@ -240,19 +295,25 @@ public class StateMachine extends StateMachineBase {
         try {
             lblTitle.setText(i.getTitle());
         } catch (Exception e) {
-            System.out.println("error in title = " + e);
+            if (dev) {
+                Dialog.show("Error Note", "error in title " + e.toString());
+            }
         }
         Label lblText = new Label();
         try {
             lblText.setText(i.getText());
         } catch (Exception e) {
-            System.out.println("error in text = " + e);
+            if (dev) {
+                Dialog.show("Error Note", "error in text " + e.toString());
+            }
         }
         try {
             con.add(lblTitle);
             con.add(lblText);
         } catch (Exception e) {
-            System.out.println("couldn't add title or text to container");
+            if (dev) {
+                Dialog.show("Error Note", "error in note " + e.toString());
+            }
         }
     }
 
@@ -291,5 +352,40 @@ public class StateMachine extends StateMachineBase {
 //                System.out.println("error error error");
 //            }
 //        }
+    }
+
+    @Override
+    protected void onMain_BoxDeveloperAction(Component c, ActionEvent event) {
+        dev = findBoxDeveloper().isSelected();
+        memories.setDev(dev);
+        Button delete = new Button("delete");
+        if (dev) {
+            delete.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    String[] files = null;
+                    try {
+                        String home = FileSystemStorage.getInstance().getAppHomePath();
+                        System.out.println("home = " + home);
+                        files = FileSystemStorage.getInstance().listFiles(home);
+                        System.out.println("files = " + files.length);
+                        for (String i : files) {
+                            FileSystemStorage.getInstance().delete(home + i);
+                        }
+                        Dialog.show("Success", "Files successfully deleted", "OK", null);
+                    } catch (IOException ex) {
+                        Dialog.show("Error", "Error getting files", "OK", null);
+                    }
+
+                }
+            });
+            findConMemories().add(delete);
+            Dialog.show("Info", "You are now a Developer", "OK", null);
+        } else {
+            try {
+                findConMemories().removeComponent(deletes);
+            } catch (Exception e) {
+            }
+        }
     }
 }

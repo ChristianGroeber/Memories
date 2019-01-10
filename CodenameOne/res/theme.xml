@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <resource majorVersion="1" minorVersion="9" useXmlUI="false">
+    <legacyFont name="Font 1" />
+    <legacyFont name="Font 2" />
     <image name="font.png"  />
     <image name="GUIBuilder.png"  />
     <image name="images.png"  />
@@ -8,6 +10,19 @@
     <ui name="New Note" />
     <theme name="Theme">
         <val key="@includeNativeBool" value="true" />
+        <val key="Container.bgColor" value="ccccff" />
+        <gradient key="Container.bgGradient" color1="15790320" color2="15790320" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="Container.bgType" value="6" />
+        <val key="Container.fgColor" value="ccccff" />
+        <gradient key="TextField.bgGradient" color1="15790320" color2="15790320" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="TextField.bgType" value="7" />
+        <val key="Title.align" value="3" />
+        <val key="Title.bgColor" value="fbb03b" />
+        <gradient key="Title.bgGradient" color1="16494651" color2="16494651" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="Title.bgType" value="6" />
+        <font key="Title.font" type="named" name="Font 2" />
+        <val key="bgColor" value="ccccff" />
+        <font key="press#font" type="system" face="0" style="0" size="0" />
     </theme>
     <image name="theme.png"  />
 </resource>

@@ -30,15 +30,15 @@ import java.util.StringTokenizer;
  */
 public class MyImage {
 
-    private Image image;
+    private String imagePath;
     private String gps;
     private String location;
     private String temperature;
     private static String apiKey = new ApiKey().getKey();
     private Date date;
 
-    public MyImage(Image image, String gps, String location, String temperature) {
-        this.image = image;
+    public MyImage(String imagePath, String gps, String location, String temperature) {
+        this.imagePath = imagePath;
         this.gps = gps;
         this.location = location;
         this.temperature = temperature;
@@ -72,12 +72,12 @@ public class MyImage {
         return ret;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String getGps() {
@@ -110,7 +110,7 @@ public class MyImage {
     public String toString() {
         String str = "";
         try {
-            str += image.toString() + "\\";
+            str += imagePath + "\\";
             str += sd.format(date) + "\\";
             str += gps + "\\";
             str += location + "\\";
@@ -124,13 +124,12 @@ public class MyImage {
     public MyImage fromString(String myImage) throws IOException, ParseException {
         System.out.println("myImage = " + myImage);
         StringTokenizer tokenizer = new StringTokenizer(myImage, "\\");
-        String strImage = tokenizer.nextToken();
+        String imagePath = tokenizer.nextToken();
         try {
             String strDate = tokenizer.nextToken();
             gps = tokenizer.nextToken();
             location = tokenizer.nextToken();
             temperature = tokenizer.nextToken();
-            this.image = Image.createImage(strImage);
             this.date = sd.parse(strDate);
         } catch (Exception e) {
             System.out.println("error loading myImage" + e);

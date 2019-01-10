@@ -5,6 +5,7 @@
  */
 package userclasses;
 
+import com.codename1.ui.Dialog;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,7 +15,7 @@ import java.util.StringTokenizer;
  *
  * @author chris
  */
-public class Note {
+public class Note extends Memories{
 
     private String title;
     private String text;
@@ -57,8 +58,15 @@ public class Note {
             title = tokenizer.nextToken();
             text = tokenizer.nextToken();
             date = sd.parse(tokenizer.nextToken());
-        } catch (Exception e) {
+        } catch (ParseException e) {
+            if(super.isDev()){
+                Dialog.show("Error loading strNote", e.toString(), "OK", null);
+            }
             System.out.println("error loading strNote " + e);
+        }catch(Exception e){
+            if(super.isDev()){
+                Dialog.show("Error with notes", e.toString(), "OK",null);
+            }
         }
 
         return this;

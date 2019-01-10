@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<component type="Form" name="Main" cloudDestinationProperty="Main" layout="LayeredLayout" title="Memories" >
+<component type="Form" name="Main" cloudDestinationProperty="Main" enabled="true" scrollVisible="false" layout="LayeredLayout" title="Memories" >
   <component type="Tabs" name="Tabs" cloudDestinationProperty="Tabs" >
     <custom name="titles" type="java.lang.String" array="true" dimensions="1" >
       <str>Memories</str>
       <str>Today's Memory</str>
     </custom>
-    <component type="Container" name="conMemories" tabTitle="Memories" cloudDestinationProperty="Memories" >
+    <component type="Container" name="conMemories" tabTitle="Memories" cloudDestinationProperty="Memories" focusable="false" rtl="false" layout="BoxLayout" boxLayoutAxis="Y" >
+      <component type="CheckBox" name="boxDeveloper" cloudDestinationProperty="boxDeveloper" text="I am a Developer" >
+      </component>
       <component type="Button" name="btnLoadMemories" cloudDestinationProperty="btnLoadMemories" text="LOAD MEMORIES" >
       </component>
     </component>

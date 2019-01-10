@@ -6,6 +6,7 @@
 package userclasses;
 
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Dialog;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -16,15 +17,24 @@ import java.util.StringTokenizer;
  *
  * @author chris
  */
-public class Memory {
+public class Memory extends Memories{
 
     private final ArrayList<MyImage> images = new ArrayList<>();
     private final ArrayList<Note> notes = new ArrayList<>();
     private Date date = new Date();
     private String title = " ";
+    private String path;
 
     public Memory() {
 
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public String getTitle() {
@@ -60,10 +70,12 @@ public class Memory {
     }
 
     private final SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
+    private final SimpleDateFormat pathName = new SimpleDateFormat("dd-MM-yyyy");
 
     @Override
     public String toString() {
         String str = "";
+        path = pathName.format(date);
         str += sd.format(date) + "///";
         if (images.isEmpty()) {
             str += " ";
@@ -91,6 +103,9 @@ public class Memory {
         try {
             title = tokenizer.nextToken();
         } catch (Exception e) {
+            if(super.isDev()){
+                Dialog.show("Error with tokenizer", "Error " + e.toString(), "OK", null);
+            }
         }
         createImages(strImages);
         createNotes(strNotes);
