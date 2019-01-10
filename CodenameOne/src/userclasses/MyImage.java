@@ -48,11 +48,8 @@ public class MyImage {
         Location gps = LocationManager.getLocationManager().getCurrentLocationSync();
         Coord coord = new Coord(gps.getLatitude(), gps.getLongitude());
         location = getFormattedAddress(coord);
-
-        System.out.println(gps);
+        date = new Date();
     }
-
-    ;
     
     public static String getFormattedAddress(Coord coord) {
         String ret = "";
@@ -117,6 +114,7 @@ public class MyImage {
         str += gps + "\\";
         str += location + "\\";
         str += temperature;
+        System.out.println("str = " + str);
         return str;
     }
 

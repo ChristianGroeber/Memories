@@ -42,6 +42,9 @@ public class Note {
     public String toString() {
         String str = "";
         str += title + "\\" + text + "\\";
+        if(date == null){
+            date = new Date();
+        }
         str += sd.format(date);
 
         return str;

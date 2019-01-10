@@ -21,7 +21,7 @@ public class Notes {
     public Note[] getNotes() {
         Note[] notesArray = new Note[notes.size()];
         notesArray = notes.toArray(notesArray);
-        Arrays.sort(notesArray);
+        //Arrays.sort(notesArray);
         return notesArray;
     }
     

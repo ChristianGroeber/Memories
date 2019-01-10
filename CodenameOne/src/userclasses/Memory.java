@@ -27,6 +27,16 @@ public class Memory {
 
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    
+
     public void addImage(MyImage image) {
         images.add(image);
     }
@@ -57,6 +67,9 @@ public class Memory {
     public String toString() {
         String str = "";
         str += sd.format(date) + "///";
+        if(images.isEmpty()){
+            str += " ";
+        }
         for (MyImage i : images) {
             str += i.toString() + "\\\\";
         }
@@ -65,7 +78,10 @@ public class Memory {
         for (Note i : notes) {
             str += i.toString() + "\\\\";
         }
-        str += "///" + title + "///";
+        if(notes.isEmpty()){
+            str += " ";
+        }
+        str += "///"+  title + "///";
         return str;
     }
 

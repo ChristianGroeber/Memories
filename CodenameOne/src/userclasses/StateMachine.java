@@ -7,6 +7,7 @@ package userclasses;
 
 import ch.bbbaden.m335.memories.MyApplication;
 import com.codename1.capture.Capture;
+import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
 import com.codename1.ext.filechooser.FileChooser;
 import com.codename1.io.FileSystemStorage;
@@ -20,9 +21,12 @@ import com.codename1.media.MediaManager;
 import generated.StateMachineBase;
 import com.codename1.ui.*;
 import com.codename1.ui.events.*;
+import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -33,6 +37,7 @@ public class StateMachine extends StateMachineBase {
 
     private Memories memories;
     private Notes notes;
+    private ArrayList<Memory> arrMemories;
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -58,6 +63,9 @@ public class StateMachine extends StateMachineBase {
                 img = Image.createImage(i);
                 MyImage image = new MyImage();
                 image.setImage(img);
+                image.toString();
+                memories.getTodaysMemory().addImage(image);
+                putMemoryInForm(memories.getTodaysMemory());
             } catch (IOException ex) {
                 System.out.println("ex = " + ex);
             }
@@ -77,7 +85,10 @@ public class StateMachine extends StateMachineBase {
                         Image img = Image.createImage(file);
                         MyImage myImage = new MyImage();
                         myImage.setImage(img);
+                        myImage.toString();
                         current.add(new Label(img));
+                        memories.getTodaysMemory().addImage(myImage);
+                        putMemoryInForm(memories.getTodaysMemory());
                         if (true) {
                             return;
                         }
@@ -167,16 +178,78 @@ public class StateMachine extends StateMachineBase {
         }
         notes.addNote(note);
         value.save(notes);
+        memories.getTodaysMemory().addNote(note);
+        putMemoryInForm(memories.getTodaysMemory());
+        System.out.println(memories.getTodaysMemory());
         back();
-
     }
 
     private void save() {
         Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
     }
 
+    private int firstBoot = 0;
+
     @Override
     protected void beforeMain(Form f) {
+        if (firstBoot == 0) {
+            loadMemories();
+
+            firstBoot = 1;
+        }
+        arrMemories = memories.getMemories();
+        for (Memory i : arrMemories) {
+            putMemoryInForm(i);
+        }
+    }
+
+    private void putMemoryInForm(Memory mem) {
+        ArrayList<MyImage> img = mem.getImages();
+        ArrayList<Note> notes = mem.getNotes();
+        Container con = new Container(BoxLayout.y());
+        TextField txtTitle = new TextField(mem.getTitle());
+        con.add(txtTitle);
+        if (!img.isEmpty()) {
+            for (MyImage i : img) {
+                addImageToForm(i, con);
+            }
+        }
+        if (!notes.isEmpty()) {
+            for (Note i : notes) {
+                addNoteToForm(i, con);
+            }
+        }
+
+    }
+
+    private void addImageToForm(MyImage i, Container con) {
+        ImageViewer imgViewer = new ImageViewer();
+        imgViewer.setImage(i.getImage());
+        con.add(imgViewer);
+    }
+
+    private void addNoteToForm(Note i, Container con) {
+        Label lblTitle = new Label();
+        try {
+            lblTitle.setText(i.getTitle());
+        } catch (Exception e) {
+            System.out.println("error in title = " + e);
+        }
+        Label lblText = new Label();
+        try {
+            lblText.setText(i.getText());
+        } catch (Exception e) {
+            System.out.println("error in text = " + e);
+        }
+        try {
+            con.add(lblTitle);
+            con.add(lblText);
+        } catch (Exception e) {
+            System.out.println("couldn't add title or text to container");
+        }
+    }
+
+    private void loadMemories() {
         memories = new Memories();
         try {
             memories.setMemories((Set<String>) Storage.getInstance().readObject("Saved Data"));
@@ -186,10 +259,14 @@ public class StateMachine extends StateMachineBase {
             System.out.println("ex = " + ex);
         } catch (java.text.ParseException ex) {
             System.out.println("ex = " + ex);
+        } catch (NullPointerException e) {
+            System.out.println("e = " + e);
+            try {
+                memories.setMemories(new HashSet<String>());
+            } catch (ParseException ex) {
+            } catch (IOException ex) {
+            } catch (java.text.ParseException ex) {
+            }
         }
-    }
-
-    private void loadMemories() {
-        memories = new Memories();
     }
 }

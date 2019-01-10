@@ -13,60 +13,64 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-
 /**
  *
  * @author chris
  */
 public class Memories {
+
     private Memory todaysMemory;
     private Set<Memory> memories = new HashSet<>();
     private ArrayList<Memory> arrMemories = new ArrayList<>();
-    
-    public Memories(){
-        
+
+    public Memories() {
+
     }
-    
-    public void setMemories(Set<String> memories) throws ParseException, IOException, java.text.ParseException{
+
+    public void setMemories(Set<String> memories) throws ParseException, IOException, java.text.ParseException {
         fromSet(memories);
         Date todaysDate = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("dd.MM.yyyy");
         String strDate = ft.format(todaysDate);
-        for(Memory mems : arrMemories){
-            if(strDate.equals(ft.format(mems.getDate()))){
+        for (Memory mems : arrMemories) {
+            if (strDate.equals(ft.format(mems.getDate()))) {
                 todaysMemory = mems;
             }
         }
-        if(todaysMemory == null){
+        if (todaysMemory == null) {
             todaysMemory = new Memory();
             todaysMemory.setDate(ft.parse(ft.format(todaysDate)));
         }
     }
-    
-    private void fromSet(Set<String> setMemories) throws IOException, java.text.ParseException, ParseException{
-        for(String i : setMemories){
+
+    private void fromSet(Set<String> setMemories) throws IOException, java.text.ParseException, ParseException {
+        if (setMemories.isEmpty()) {
             Memory mem = new Memory();
-            mem.fromString(i);
             arrMemories.add(mem);
+        } else {
+            for (String i : setMemories) {
+                Memory mem = new Memory();
+                mem.fromString(i);
+                arrMemories.add(mem);
+            }
         }
         this.memories = null; //TODO
     }
-    
-    public Set<Memory> getMemories(){
-        return this.memories;
+
+    public ArrayList<Memory> getMemories() {
+        return this.arrMemories;
     }
-    
-    public Memory getTodaysMemory(){
+
+    public Memory getTodaysMemory() {
         return this.todaysMemory;
     }
-    
-    public Set<String> toHashSet(){
+
+    public Set<String> toHashSet() {
         Set<String> memories = new HashSet<>();
-        for(Memory i : arrMemories){
+        for (Memory i : arrMemories) {
             memories.add(i.toString());
         }
         return memories;
     }
-    
-    
+
 }
