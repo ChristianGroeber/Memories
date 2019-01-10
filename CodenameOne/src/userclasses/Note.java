@@ -42,7 +42,7 @@ public class Note {
     public String toString() {
         String str = "";
         str += title + "\\" + text + "\\";
-        if(date == null){
+        if (date == null) {
             date = new Date();
         }
         str += sd.format(date);
@@ -51,10 +51,16 @@ public class Note {
     }
 
     public Note fromString(String strNote) throws ParseException {
+        System.out.println("strNote = " + strNote);
         StringTokenizer tokenizer = new StringTokenizer(strNote, "\\");
-        title = tokenizer.nextToken();
-        text = tokenizer.nextToken();
-        date = sd.parse(tokenizer.nextToken());
+        try {
+            title = tokenizer.nextToken();
+            text = tokenizer.nextToken();
+            date = sd.parse(tokenizer.nextToken());
+        } catch (Exception e) {
+            System.out.println("error loading strNote " + e);
+        }
+
         return this;
     }
 

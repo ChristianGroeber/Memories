@@ -21,7 +21,7 @@ public class Memory {
     private final ArrayList<MyImage> images = new ArrayList<>();
     private final ArrayList<Note> notes = new ArrayList<>();
     private Date date = new Date();
-    private String title = "";
+    private String title = " ";
 
     public Memory() {
 
@@ -34,8 +34,6 @@ public class Memory {
     public void setTitle(String title) {
         this.title = title;
     }
-    
-    
 
     public void addImage(MyImage image) {
         images.add(image);
@@ -67,7 +65,7 @@ public class Memory {
     public String toString() {
         String str = "";
         str += sd.format(date) + "///";
-        if(images.isEmpty()){
+        if (images.isEmpty()) {
             str += " ";
         }
         for (MyImage i : images) {
@@ -78,10 +76,10 @@ public class Memory {
         for (Note i : notes) {
             str += i.toString() + "\\\\";
         }
-        if(notes.isEmpty()){
+        if (notes.isEmpty()) {
             str += " ";
         }
-        str += "///"+  title + "///";
+        str += "///" + title + "///";
         return str;
     }
 
@@ -90,7 +88,10 @@ public class Memory {
         date = sd.parse(tokenizer.nextToken());
         String strImages = tokenizer.nextToken();
         String strNotes = tokenizer.nextToken();
-        title = tokenizer.nextToken();
+        try {
+            title = tokenizer.nextToken();
+        } catch (Exception e) {
+        }
         createImages(strImages);
         createNotes(strNotes);
     }

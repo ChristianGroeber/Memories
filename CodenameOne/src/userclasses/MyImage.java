@@ -50,7 +50,7 @@ public class MyImage {
         location = getFormattedAddress(coord);
         date = new Date();
     }
-    
+
     public static String getFormattedAddress(Coord coord) {
         String ret = "";
         try {
@@ -103,30 +103,38 @@ public class MyImage {
     public void setTemperature(String temperature) {
         this.temperature = temperature;
     }
-    
-    
+
     private final SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+
     @Override
     public String toString() {
         String str = "";
-        str += image.toString() + "\\";
-        str += sd.format(date) + "\\";
-        str += gps + "\\";
-        str += location + "\\";
-        str += temperature;
+        try {
+            str += image.toString() + "\\";
+            str += sd.format(date) + "\\";
+            str += gps + "\\";
+            str += location + "\\";
+            str += temperature;
+        } catch (Exception e) {
+        }
         System.out.println("str = " + str);
         return str;
     }
 
     public MyImage fromString(String myImage) throws IOException, ParseException {
+        System.out.println("myImage = " + myImage);
         StringTokenizer tokenizer = new StringTokenizer(myImage, "\\");
         String strImage = tokenizer.nextToken();
-        String strDate = tokenizer.nextToken();
-        gps = tokenizer.nextToken();
-        location = tokenizer.nextToken();
-        temperature = tokenizer.nextToken();
-        this.image = Image.createImage(strImage);
-        this.date = sd.parse(strDate);
+        try {
+            String strDate = tokenizer.nextToken();
+            gps = tokenizer.nextToken();
+            location = tokenizer.nextToken();
+            temperature = tokenizer.nextToken();
+            this.image = Image.createImage(strImage);
+            this.date = sd.parse(strDate);
+        } catch (Exception e) {
+            System.out.println("error loading myImage" + e);
+        }
         return this;
     }
 

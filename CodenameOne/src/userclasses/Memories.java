@@ -20,14 +20,14 @@ import java.util.Set;
 public class Memories {
 
     private Memory todaysMemory;
-    private Set<Memory> memories = new HashSet<>();
+    private ArrayList<Memory> memories = new ArrayList<>();
     private ArrayList<Memory> arrMemories = new ArrayList<>();
 
     public Memories() {
 
     }
 
-    public void setMemories(Set<String> memories) throws ParseException, IOException, java.text.ParseException {
+    public void setMemories(ArrayList<String> memories) throws ParseException, IOException, java.text.ParseException {
         fromSet(memories);
         Date todaysDate = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("dd.MM.yyyy");
@@ -43,7 +43,7 @@ public class Memories {
         }
     }
 
-    private void fromSet(Set<String> setMemories) throws IOException, java.text.ParseException, ParseException {
+    private void fromSet(ArrayList<String> setMemories) throws IOException, java.text.ParseException, ParseException {
         if (setMemories.isEmpty()) {
             Memory mem = new Memory();
             arrMemories.add(mem);

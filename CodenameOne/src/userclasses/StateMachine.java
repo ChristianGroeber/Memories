@@ -38,6 +38,7 @@ public class StateMachine extends StateMachineBase {
     private Memories memories;
     private Notes notes;
     private ArrayList<Memory> arrMemories;
+    private ArrayList<Memory> memoriesOnForm = new ArrayList<>();
 
     public StateMachine(String resFile) {
         super(resFile);
@@ -154,16 +155,24 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void onMain_BtnLoadMemoriesAction(Component c, ActionEvent event) {
-
-        Container container = findConMemories();
-        for (Memory i : memories.getMemories()) {
-            for (Note x : i.getNotes()) {
-                Label title = new Label(x.getTitle());
-                Label text = new Label(x.getText());
-                container.add(title);
-                container.add(text);
+        loadMemories();
+        arrMemories = memories.getMemories();
+        for (Memory i : arrMemories) {
+            try {
+                putMemoryInForm(i);
+            } catch (NullPointerException e) {
+                System.out.println("error error error");
             }
         }
+//        Container container = findConMemories();
+//        for (Memory i : memories.getMemories()) {
+//            for (Note x : i.getNotes()) {
+//                Label title = new Label(x.getTitle());
+//                Label text = new Label(x.getText());
+//                container.add(title);
+//                container.add(text);
+//            }
+//        }
     }
 
     @Override
@@ -179,7 +188,6 @@ public class StateMachine extends StateMachineBase {
         notes.addNote(note);
         value.save(notes);
         memories.getTodaysMemory().addNote(note);
-        putMemoryInForm(memories.getTodaysMemory());
         System.out.println(memories.getTodaysMemory());
         back();
     }
@@ -188,38 +196,37 @@ public class StateMachine extends StateMachineBase {
         Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
     }
 
-    private int firstBoot = 0;
-
-    @Override
-    protected void beforeMain(Form f) {
-        if (firstBoot == 0) {
-            loadMemories();
-
-            firstBoot = 1;
-        }
-        arrMemories = memories.getMemories();
-        for (Memory i : arrMemories) {
-            putMemoryInForm(i);
-        }
-    }
-
     private void putMemoryInForm(Memory mem) {
-        ArrayList<MyImage> img = mem.getImages();
-        ArrayList<Note> notes = mem.getNotes();
-        Container con = new Container(BoxLayout.y());
-        TextField txtTitle = new TextField(mem.getTitle());
-        con.add(txtTitle);
-        if (!img.isEmpty()) {
-            for (MyImage i : img) {
-                addImageToForm(i, con);
+            memoriesOnForm.add(mem);
+            ArrayList<MyImage> img = mem.getImages();
+            ArrayList<Note> notes = mem.getNotes();
+            Container con = new Container(BoxLayout.y());
+            con.setUIID(mem.getDate().toString());
+            ArrayList<Component> containers = (ArrayList<Component>) findConMemories().getChildrenAsList(true);
+            for(Component i : containers){
+                if(i.getUIID().equals(con.getUIID())){
+                    System.out.println("found double container");
+                    findConMemories().removeComponent(i);
+                }
             }
-        }
-        if (!notes.isEmpty()) {
-            for (Note i : notes) {
-                addNoteToForm(i, con);
+            TextField txtTitle = new TextField(mem.getTitle());
+            con.add(txtTitle);
+            if (!img.isEmpty()) {
+                for (MyImage i : img) {
+                    addImageToForm(i, con);
+                }
             }
-        }
-
+            if (!notes.isEmpty()) {
+                for (Note i : notes) {
+                    addNoteToForm(i, con);
+                }
+            }
+            try {
+                findConMemories().addComponent(con); //need to do this after loading
+            } catch (Exception e) {
+                System.out.println("e = " + e + "\nCurrent working form: " + Display.getInstance().getCurrent().getTitle());
+            }
+            save();
     }
 
     private void addImageToForm(MyImage i, Container con) {
@@ -250,23 +257,39 @@ public class StateMachine extends StateMachineBase {
     }
 
     private void loadMemories() {
-        memories = new Memories();
-        try {
-            memories.setMemories((Set<String>) Storage.getInstance().readObject("Saved Data"));
-        } catch (ParseException ex) {
-            System.out.println("ex = " + ex);
-        } catch (IOException ex) {
-            System.out.println("ex = " + ex);
-        } catch (java.text.ParseException ex) {
-            System.out.println("ex = " + ex);
-        } catch (NullPointerException e) {
-            System.out.println("e = " + e);
+        if (memories == null) {
+            memories = new Memories();
             try {
-                memories.setMemories(new HashSet<String>());
+                memories.setMemories((ArrayList<String>) Storage.getInstance().readObject("Saved Data"));
             } catch (ParseException ex) {
+                System.out.println("ex = " + ex);
             } catch (IOException ex) {
+                System.out.println("ex = " + ex);
             } catch (java.text.ParseException ex) {
+                System.out.println("ex = " + ex);
+            } catch (NullPointerException e) {
+                System.out.println("lulerror = " + e);
+                try {
+                    memories.setMemories(new ArrayList<String>());
+                } catch (ParseException ex) {
+                } catch (IOException ex) {
+                } catch (java.text.ParseException ex) {
+                }
             }
         }
+    }
+
+    @Override
+    protected void postMain(Form f) {
+        System.out.println("post show");
+        loadMemories();
+//        arrMemories = memories.getMemories();
+//        for (Memory i : arrMemories) {
+//            try {
+//                putMemoryInForm(i);
+//            } catch (NullPointerException e) {
+//                System.out.println("error error error");
+//            }
+//        }
     }
 }
