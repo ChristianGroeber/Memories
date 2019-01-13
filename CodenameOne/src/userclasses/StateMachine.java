@@ -383,7 +383,7 @@ public class StateMachine extends StateMachineBase {
             Dialog.show("Info", "You are now a Developer", "OK", null);
         } else {
             try {
-                findConMemories().removeComponent(deletes);
+                findConMemories().removeComponent(delete);
             } catch (Exception e) {
             }
         }
