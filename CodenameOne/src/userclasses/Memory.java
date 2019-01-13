@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
  *
  * @author chris
  */
-public class Memory extends Memories{
+public class Memory extends Memories {
 
     private final ArrayList<MyImage> images = new ArrayList<>();
     private final ArrayList<Note> notes = new ArrayList<>();
@@ -80,13 +80,16 @@ public class Memory extends Memories{
         if (images.isEmpty()) {
             str += " ";
         }
+        if (super.isDev()) {
+            Dialog.show("Images", "" + images.size(), "OK", null);
+        }
         for (MyImage i : images) {
-            str += i.toString() + "\\\\";
+            str += i.toString() + "\\\\\\";
         }
         str += "///";
 
         for (Note i : notes) {
-            str += i.toString() + "\\\\";
+            str += i.toString() + "\\\\\\";
         }
         if (notes.isEmpty()) {
             str += " ";
@@ -95,24 +98,64 @@ public class Memory extends Memories{
         return str;
     }
 
-    public void fromString(String strMemory) throws IOException, ParseException, com.codename1.l10n.ParseException {
-        StringTokenizer tokenizer = new StringTokenizer(strMemory, "///");
-        date = sd.parse(tokenizer.nextToken());
-        String strImages = tokenizer.nextToken();
-        String strNotes = tokenizer.nextToken();
-        try {
-            title = tokenizer.nextToken();
-        } catch (Exception e) {
-            if(super.isDev()){
-                Dialog.show("Error with tokenizer", "Error " + e.toString(), "OK", null);
-            }
+    public ArrayList<ArrayList<ArrayList<String>>> toArray() {
+        ArrayList<ArrayList<ArrayList<String>>> ret = new ArrayList<>();
+        ArrayList<ArrayList<String>> arrInfo = new ArrayList<>();
+        ArrayList<String> temp = new ArrayList<>();
+        temp.add(sd.format(date));       //date
+        temp.add(title);
+        arrInfo.add(temp);
+        ret.add(arrInfo);
+        ArrayList<ArrayList<String>> arrImages = new ArrayList<>();
+        for (MyImage i : images) {
+            arrImages.add(i.toArray());
         }
-        createImages(strImages);
-        createNotes(strNotes);
+        ret.add(arrImages);
+        ArrayList<ArrayList<String>> arrNotes = new ArrayList<>();
+        for (Note i : notes) {
+            arrNotes.add(i.toArray());
+        }
+        ret.add(arrNotes);
+
+        return ret;
+    }
+
+    public void fromArray(ArrayList<ArrayList<ArrayList<String>>> arr) throws com.codename1.l10n.ParseException {
+        ArrayList<ArrayList<String>> info = arr.get(0);
+        ArrayList<String> temp = info.get(0);
+        date = sd.parse(temp.get(0));
+        title = temp.get(1);
+        ArrayList<ArrayList<String>> img = arr.get(1);
+        for (ArrayList<String> i : img) {
+            MyImage y = new MyImage(i.get(0), i.get(1), i.get(2));
+            images.add(y);
+        }
+        ArrayList<ArrayList<String>> note = arr.get(2);
+        for (ArrayList<String> i : note) {
+            Note y = new Note(sd.parse(i.get(0)), i.get(1), i.get(2));
+            notes.add(y);
+        }
+    }
+
+    public void fromString(String strMemory) throws IOException, ParseException, com.codename1.l10n.ParseException {
+        title = strMemory;
+//        StringTokenizer tokenizer = new StringTokenizer(strMemory, "///");
+//        date = sd.parse(tokenizer.nextToken());
+//        String strImages = tokenizer.nextToken();
+//        String strNotes = tokenizer.nextToken();
+//        try {
+//            title = tokenizer.nextToken();
+//        } catch (Exception e) {
+//            if(super.isDev()){
+//                Dialog.show("Error with tokenizer", "Error " + e.toString(), "OK", null);
+//            }
+//        }
+//        createImages(strImages);
+//        createNotes(strNotes);
     }
 
     private void createImages(String images) throws IOException, ParseException {
-        StringTokenizer tokenizer = new StringTokenizer(images, "\\\\");
+        StringTokenizer tokenizer = new StringTokenizer(images, "\\\\\\");
         while (tokenizer.hasMoreTokens()) {
             String tok = tokenizer.nextToken();
             System.out.println("tok = " + tok);
@@ -122,7 +165,7 @@ public class Memory extends Memories{
     }
 
     private void createNotes(String notes) throws ParseException {
-        StringTokenizer tokenizer = new StringTokenizer(notes, "\\\\");
+        StringTokenizer tokenizer = new StringTokenizer(notes, "\\\\\\");
         while (tokenizer.hasMoreTokens()) {
             String tok = tokenizer.nextToken();
             System.out.println("tok = " + tok);

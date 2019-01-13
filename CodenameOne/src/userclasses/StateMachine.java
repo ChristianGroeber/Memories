@@ -10,6 +10,7 @@ import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
 import com.codename1.ext.filechooser.FileChooser;
+import com.codename1.io.Externalizable;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.io.Storage;
@@ -24,6 +25,7 @@ import com.codename1.ui.events.*;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -34,7 +36,7 @@ import java.util.Date;
  *
  * @author Your name here
  */
-public class StateMachine extends StateMachineBase {
+public class StateMachine extends StateMachineBase implements Externalizable {
 
     private Memories memories;
     private Notes notes;
@@ -228,15 +230,35 @@ public class StateMachine extends StateMachineBase {
     }
 
     private void save() throws IOException {
-        Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
+        //Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
         String home = FileSystemStorage.getInstance().getAppHomePath();
+        ArrayList<ArrayList<ArrayList<ArrayList<String>>>> four = new ArrayList<>();
         for (Memory i : arrMemories) {
-            OutputStream os = FileSystemStorage.getInstance().openOutputStream(home + i.getPath());
-            DataOutputStream dos = new DataOutputStream(os);
-            dos.writeChars(i.toString());
-            dos.flush();
-            dos.close();
+            four.add(i.toArray());
+//            OutputStream os = FileSystemStorage.getInstance().openOutputStream(home + i.getPath());
+//            DataOutputStream out = new DataOutputStream(os);
+//            if (four == null) {
+//                out.writeChars("");
+//            } else {
+//                out.writeChars("" + four.size());
+//                for (ArrayList<ArrayList<ArrayList<String>>> y : four.get(0)) {
+//
+//                }
+//                for (int iter = 0; iter < four.size(); iter++) {
+//                    if (four.get(iter) == null) {
+//                        out.writeChars("");
+//                    } else {
+//                        out.writeChars(four.get(iter).size() + "");
+//                        for (int y = 0; y < four.; y++) {
+//                            out.writeInt(myMultiArr[iter][i]);
+//                        }
+//                    }
+//                }
+//            }
+//            out.flush();
+//            out.close();
         }
+        Storage.getInstance().writeObject("Saved Data", four);
     }
 
     private void putMemoryInForm(Memory mem) throws IOException {
@@ -292,6 +314,7 @@ public class StateMachine extends StateMachineBase {
 
     private void addNoteToForm(Note i, Container con) {
         Label lblTitle = new Label();
+        lblTitle.setUIID("LabelTitle");
         try {
             lblTitle.setText(i.getTitle());
         } catch (Exception e) {
@@ -344,7 +367,7 @@ public class StateMachine extends StateMachineBase {
     protected void postMain(Form f) {
         System.out.println("post show");
         loadMemories();
-//        arrMemories = memories.getMemories();
+        arrMemories = memories.getMemories();
 //        for (Memory i : arrMemories) {
 //            try {
 //                putMemoryInForm(i);
@@ -359,6 +382,7 @@ public class StateMachine extends StateMachineBase {
         dev = findBoxDeveloper().isSelected();
         memories.setDev(dev);
         Button delete = new Button("delete");
+        Button save = new Button("save");
         if (dev) {
             delete.addActionListener(new ActionListener() {
                 @Override
@@ -379,13 +403,69 @@ public class StateMachine extends StateMachineBase {
 
                 }
             });
+
+            save.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent evt) {
+                    Memory mem = memories.getTodaysMemory();
+                    Form detail = new Form("Detail", BoxLayout.y());
+                    Label lblTitle = new Label("Titel:");
+                    TextField txtTitle = new TextField(mem.getTitle());
+                    Label lblDate = new Label("Date:");
+                    TextField txtDate = new TextField(mem.getDate().toString());
+                    Label lblImages = new Label("Images:");
+                    detail.add(lblTitle);
+                    detail.add(txtTitle);
+                    detail.add(lblDate);
+                    detail.add(txtDate);
+                    detail.add(lblImages);
+                    for (MyImage i : mem.getImages()) {
+                        Label lblImg = new Label(i.getImagePath());
+                        detail.add(lblImg);
+                    }
+                    Button btnBack = new Button("Back");
+                    btnBack.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent evt) {
+                            showForm("Main", null);
+                        }
+
+                    });
+                    detail.add(btnBack);
+                    detail.show();
+                    try {
+                        save();
+                    } catch (IOException ex) {
+                    }
+                }
+
+            });
             findConMemories().add(delete);
+            findConMemories().add(save);
             Dialog.show("Info", "You are now a Developer", "OK", null);
         } else {
             try {
-                findConMemories().removeComponent(deletes);
+                findConMemories().removeComponent(delete);
             } catch (Exception e) {
             }
         }
+    }
+
+    @Override
+    public int getVersion() {
+        return 0;
+    }
+
+    @Override
+    public void externalize(DataOutputStream out) throws IOException {
+    }
+
+    @Override
+    public void internalize(int version, DataInputStream in) throws IOException {
+    }
+
+    @Override
+    public String getObjectId() {
+        return "";
     }
 }

@@ -20,7 +20,9 @@
         <val key="Title.bgColor" value="fbb03b" />
         <gradient key="Title.bgGradient" color1="16494651" color2="16494651" posX="0.5" posY="0.5" radius="1.0" />
         <val key="Title.bgType" value="6" />
-        <font key="Title.font" type="named" name="Font 2" />
+        <gradient key="TitleLabel.bgGradient" color1="3355647" color2="3355647" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="TitleLabel.bgType" value="6" />
+        <font key="TitleLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="1" actualSize="12.0" />
         <val key="bgColor" value="ccccff" />
         <font key="press#font" type="system" face="0" style="0" size="0" />
     </theme>

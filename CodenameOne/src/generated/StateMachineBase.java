@@ -144,6 +144,18 @@ public abstract class StateMachineBase extends UIBuilder {
         return cmp;
     }
 
+    public com.codename1.components.ImageViewer findImageViewer1(Component root) {
+        return (com.codename1.components.ImageViewer)findByName("ImageViewer1", root);
+    }
+
+    public com.codename1.components.ImageViewer findImageViewer1() {
+        com.codename1.components.ImageViewer cmp = (com.codename1.components.ImageViewer)findByName("ImageViewer1", Display.getInstance().getCurrent());
+        if(cmp == null && aboutToShowThisContainer != null) {
+            cmp = (com.codename1.components.ImageViewer)findByName("ImageViewer1", aboutToShowThisContainer);
+        }
+        return cmp;
+    }
+
     public com.codename1.ui.Button findBtnNewNote(Component root) {
         return (com.codename1.ui.Button)findByName("btnNewNote", root);
     }

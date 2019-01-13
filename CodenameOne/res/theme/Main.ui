@@ -7,9 +7,11 @@
       <str>Today's Memory</str>
     </custom>
     <component type="Container" name="conMemories" tabTitle="Memories" cloudDestinationProperty="Memories" focusable="false" rtl="false" layout="BoxLayout" boxLayoutAxis="Y" >
-      <component type="CheckBox" name="boxDeveloper" cloudDestinationProperty="boxDeveloper" text="I am a Developer" >
+      <component type="CheckBox" name="boxDeveloper" cloudDestinationProperty="boxDeveloper" enabled="true" text="I am a Developer" selected="false" >
       </component>
       <component type="Button" name="btnLoadMemories" cloudDestinationProperty="btnLoadMemories" text="LOAD MEMORIES" >
+      </component>
+      <component type="ImageViewer" name="ImageViewer1" cloudDestinationProperty="ImageViewer1" >
       </component>
     </component>
     <component type="Container" name="newMemory" tabTitle="Today's Memory" cloudDestinationProperty="newMemory" layout="BoxLayout" boxLayoutAxis="Y" >

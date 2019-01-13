@@ -12,6 +12,7 @@ import com.codename1.io.NetworkManager;
 import com.codename1.location.Location;
 import com.codename1.location.LocationManager;
 import com.codename1.maps.Coord;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import java.util.StringTokenizer;
  *
  * @author chris
  */
-public class MyImage {
+public class MyImage extends Memories {
 
     private String imagePath;
     private String gps;
@@ -37,11 +38,10 @@ public class MyImage {
     private static String apiKey = new ApiKey().getKey();
     private Date date;
 
-    public MyImage(String imagePath, String gps, String location, String temperature) {
+    public MyImage(String imagePath, String gps, String location) {
         this.imagePath = imagePath;
         this.gps = gps;
         this.location = location;
-        this.temperature = temperature;
     }
 
     public MyImage() {
@@ -105,17 +105,21 @@ public class MyImage {
     }
 
     private final SimpleDateFormat sd = new SimpleDateFormat("hh:mm");
+    private final String spl = ";;";
 
     @Override
     public String toString() {
         String str = "";
         try {
-            str += imagePath + "\\";
-            str += sd.format(date) + "\\";
-            str += gps + "\\";
-            str += location + "\\";
+            str += imagePath + spl;
+            str += sd.format(date) + spl;
+            str += gps + spl;
+            str += location + spl;
             str += temperature;
         } catch (Exception e) {
+            if (super.isDev()) {
+                Dialog.show("Error toString", "Error in image tostring method:\n" + e.toString(), "OK", null);
+            }
         }
         System.out.println("str = " + str);
         return str;
@@ -123,7 +127,7 @@ public class MyImage {
 
     public MyImage fromString(String myImage) throws IOException, ParseException {
         System.out.println("myImage = " + myImage);
-        StringTokenizer tokenizer = new StringTokenizer(myImage, "\\");
+        StringTokenizer tokenizer = new StringTokenizer(myImage, spl);
         String imagePath = tokenizer.nextToken();
         try {
             String strDate = tokenizer.nextToken();
@@ -132,9 +136,20 @@ public class MyImage {
             temperature = tokenizer.nextToken();
             this.date = sd.parse(strDate);
         } catch (Exception e) {
-            System.out.println("error loading myImage" + e);
+            if (super.isDev()) {
+                Dialog.show("Error", "Error in From String method:\n" + e.toString(), "OK", null);
+            }
         }
         return this;
+    }
+
+    public ArrayList<String> toArray() {
+        ArrayList<String> arr = new ArrayList<>();
+        arr.add(imagePath);
+        arr.add(sd.format(date));
+        arr.add(gps);
+        arr.add(location);
+        return arr;
     }
 
 }
