@@ -10,7 +10,6 @@ import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.MultiButton;
 import com.codename1.ext.filechooser.FileChooser;
-import com.codename1.io.Externalizable;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.io.Log;
 import com.codename1.io.Storage;
@@ -25,8 +24,6 @@ import com.codename1.ui.events.*;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -36,7 +33,7 @@ import java.util.Date;
  *
  * @author Your name heres
  */
-public class StateMachine extends StateMachineBase implements Externalizable {
+public class StateMachine extends StateMachineBase {
 
     private Memories memories;
     private Notes notes;
@@ -200,7 +197,6 @@ public class StateMachine extends StateMachineBase implements Externalizable {
             try {
                 putMemoryInForm(i);
             } catch (NullPointerException e) {
-                System.out.println("error error error");
                 if (dev) {
                     Dialog.show("Error Load Memories", e.toString(), "OK", null);
                 }
@@ -224,7 +220,6 @@ public class StateMachine extends StateMachineBase implements Externalizable {
         notes.addNote(note);
         memories.getTodaysMemory().addNote(note);
         val.save(memories);
-        System.out.println(memories.getTodaysMemory());
         back();
     }
 
@@ -281,6 +276,8 @@ public class StateMachine extends StateMachineBase implements Externalizable {
             try {
                 Image img = Image.createImage(FileSystemStorage.getInstance().openInputStream(i.getImagePath()));
                 imgViewer.setImage(img);
+                imgViewer.setHeight(img.getHeight());
+                imgViewer.setFocusable(false);
             } catch (Exception e) {
                 if (dev) {
                     Dialog.show("Error", "Error during image loading: " + e, "OK", null);
@@ -295,7 +292,7 @@ public class StateMachine extends StateMachineBase implements Externalizable {
 
     private void addNoteToForm(Note i, Container con) {
         Label lblTitle = new Label();
-        lblTitle.setUIID("LabelTitle");
+        lblTitle.setUIID("TitleLabel");
         try {
             lblTitle.setText(i.getTitle());
         } catch (Exception e) {
@@ -409,23 +406,5 @@ public class StateMachine extends StateMachineBase implements Externalizable {
                 System.out.println(e.toString());
             }
         }
-    }
-
-    @Override
-    public int getVersion() {
-        return 0;
-    }
-
-    @Override
-    public void externalize(DataOutputStream out) throws IOException {
-    }
-
-    @Override
-    public void internalize(int version, DataInputStream in) throws IOException {
-    }
-
-    @Override
-    public String getObjectId() {
-        return "";
     }
 }

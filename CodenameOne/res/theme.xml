@@ -14,6 +14,8 @@
         <gradient key="Container.bgGradient" color1="15790320" color2="15790320" posX="0.5" posY="0.5" radius="1.0" />
         <val key="Container.bgType" value="6" />
         <val key="Container.fgColor" value="ccccff" />
+        <gradient key="Label.bgGradient" color1="13421823" color2="13421823" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="Label.bgType" value="6" />
         <gradient key="TextField.bgGradient" color1="15790320" color2="15790320" posX="0.5" posY="0.5" radius="1.0" />
         <val key="TextField.bgType" value="7" />
         <val key="Title.align" value="3" />
@@ -24,11 +26,63 @@
         <val key="Title.padding" value="2.0,2.0,0.0,18.0" />
         <val key="TitleArea.margin" value="0.0,0.0,0.0,0.0" />
         <val key="TitleArea.padding" value="0.0,0.0,0.0,0.0" />
-        <gradient key="TitleLabel.bgGradient" color1="3355647" color2="3355647" posX="0.5" posY="0.5" radius="1.0" />
-        <val key="TitleLabel.bgType" value="6" />
         <font key="TitleLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="1" actualSize="12.0" />
         <val key="bgColor" value="fbb03b" />
         <font key="press#font" type="system" face="0" style="0" size="0" />
     </theme>
     <image name="theme.png"  />
+    <image name="TitleLabel.borderBottom_1.png" type="multi"  />
+    <image name="TitleLabel.borderBottom_2.png" type="multi"  />
+    <image name="TitleLabel.borderBottom_3.png" type="multi"  />
+    <image name="TitleLabel.borderBottom_4.png" type="multi"  />
+    <image name="TitleLabel.borderBottom_5.png" type="multi"  />
+    <image name="TitleLabel.borderBottom_6.png" type="multi"  />
+    <image name="TitleLabel.borderBottomL_1.png" type="multi"  />
+    <image name="TitleLabel.borderBottomL_2.png" type="multi"  />
+    <image name="TitleLabel.borderBottomL_3.png" type="multi"  />
+    <image name="TitleLabel.borderBottomL_4.png" type="multi"  />
+    <image name="TitleLabel.borderBottomL_5.png" type="multi"  />
+    <image name="TitleLabel.borderBottomL_6.png" type="multi"  />
+    <image name="TitleLabel.borderBottomR_1.png" type="multi"  />
+    <image name="TitleLabel.borderBottomR_2.png" type="multi"  />
+    <image name="TitleLabel.borderBottomR_3.png" type="multi"  />
+    <image name="TitleLabel.borderBottomR_4.png" type="multi"  />
+    <image name="TitleLabel.borderBottomR_5.png" type="multi"  />
+    <image name="TitleLabel.borderBottomR_6.png" type="multi"  />
+    <image name="TitleLabel.borderCenter_1.png" type="multi"  />
+    <image name="TitleLabel.borderCenter_2.png" type="multi"  />
+    <image name="TitleLabel.borderCenter_3.png" type="multi"  />
+    <image name="TitleLabel.borderCenter_4.png" type="multi"  />
+    <image name="TitleLabel.borderCenter_5.png" type="multi"  />
+    <image name="TitleLabel.borderCenter_6.png" type="multi"  />
+    <image name="TitleLabel.borderLeft_1.png" type="multi"  />
+    <image name="TitleLabel.borderLeft_2.png" type="multi"  />
+    <image name="TitleLabel.borderLeft_3.png" type="multi"  />
+    <image name="TitleLabel.borderLeft_4.png" type="multi"  />
+    <image name="TitleLabel.borderLeft_5.png" type="multi"  />
+    <image name="TitleLabel.borderLeft_6.png" type="multi"  />
+    <image name="TitleLabel.borderRight_1.png" type="multi"  />
+    <image name="TitleLabel.borderRight_2.png" type="multi"  />
+    <image name="TitleLabel.borderRight_3.png" type="multi"  />
+    <image name="TitleLabel.borderRight_4.png" type="multi"  />
+    <image name="TitleLabel.borderRight_5.png" type="multi"  />
+    <image name="TitleLabel.borderRight_6.png" type="multi"  />
+    <image name="TitleLabel.borderTop_1.png" type="multi"  />
+    <image name="TitleLabel.borderTop_2.png" type="multi"  />
+    <image name="TitleLabel.borderTop_3.png" type="multi"  />
+    <image name="TitleLabel.borderTop_4.png" type="multi"  />
+    <image name="TitleLabel.borderTop_5.png" type="multi"  />
+    <image name="TitleLabel.borderTop_6.png" type="multi"  />
+    <image name="TitleLabel.borderTopL_1.png" type="multi"  />
+    <image name="TitleLabel.borderTopL_2.png" type="multi"  />
+    <image name="TitleLabel.borderTopL_3.png" type="multi"  />
+    <image name="TitleLabel.borderTopL_4.png" type="multi"  />
+    <image name="TitleLabel.borderTopL_5.png" type="multi"  />
+    <image name="TitleLabel.borderTopL_6.png" type="multi"  />
+    <image name="TitleLabel.borderTopR_1.png" type="multi"  />
+    <image name="TitleLabel.borderTopR_2.png" type="multi"  />
+    <image name="TitleLabel.borderTopR_3.png" type="multi"  />
+    <image name="TitleLabel.borderTopR_4.png" type="multi"  />
+    <image name="TitleLabel.borderTopR_5.png" type="multi"  />
+    <image name="TitleLabel.borderTopR_6.png" type="multi"  />
 </resource>
