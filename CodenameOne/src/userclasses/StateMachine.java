@@ -244,12 +244,8 @@ public class StateMachine extends StateMachineBase {
         con.setHeight(100);
         ArrayList<Component> containers = (ArrayList<Component>) findConMemories().getChildrenAsList(true);
         for (Component i : containers) {
-            if (i.getUIID().equals("Container")) {
-                System.out.println("i = " + i.getName());
-                System.out.println("con = " + con.getName());
-                if (i.getName().equals(con.getName())) {
-                    findConMemories().removeComponent(i);
-                }
+            if (i.getUIID().equals(con.getUIID())) {
+                findConMemories().removeComponent(i);
             }
         }
         TextField txtTitle = new TextField(mem.getTitle());
@@ -340,9 +336,9 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
-//        Dialog ip = new InfiniteProgress().showInfiniteBlocking();
+        Dialog ip = new InfiniteProgress().showInfiniteBlocking();
         loadMemories();
-//        ip.dispose();
+        ip.dispose();
         arrMemories = memories.getMemories();
     }
 
