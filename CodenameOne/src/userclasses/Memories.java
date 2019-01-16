@@ -34,17 +34,14 @@ public class Memories{
         Date todaysDate = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("dd.MM.yyyy");
         String strDate = ft.format(todaysDate);
-        System.out.println("strDate = " + strDate);
         for (Memory mems : arrMemories) {
             if (strDate.equals(ft.format(mems.getDate()))) {
-                System.out.println("found today's memory");
                 todaysMemory = mems;
             }
         }
         if (todaysMemory == null) {
             todaysMemory = new Memory();
             todaysMemory.setDate(ft.parse(ft.format(todaysDate)));
-            System.out.println("created new memory for today");
         }
         arrMemories.add(todaysMemory);
     }

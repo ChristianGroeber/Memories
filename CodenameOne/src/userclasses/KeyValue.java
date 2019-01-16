@@ -49,7 +49,6 @@ public class KeyValue extends Memories {
 
     public ArrayList<String> load() {
         Dialog ip = new InfiniteProgress().showInfiniteBlocking();
-        System.out.println("loading");
         Memories mems = new Memories();
         ArrayList<String> ret = new ArrayList<>();
         HashMap<String, String> memories = (HashMap) Storage.getInstance().readObject("memories");

@@ -27,10 +27,6 @@ public class Notes {
     
     public void addNote(final Note note) {
         notes.add(note);        
-    } 
-    
-    public void deleteNote(final Note note) {
-        notes.remove(note);
     }
 
 }

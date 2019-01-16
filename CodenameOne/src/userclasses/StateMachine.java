@@ -242,10 +242,8 @@ public class StateMachine extends StateMachineBase {
         con.setName(mem.getDate().toString());
         con.setHeight(100);
         ArrayList<Component> containers = (ArrayList<Component>) findConMemories().getChildrenAsList(true);
-        System.out.println("Container Size: " + containers.size());
         for (Component i : containers) {
             if (i.getName().equals(con.getName())) {
-                System.out.println("found double container");
                 findConMemories().removeComponent(i);
             }
         }
@@ -285,8 +283,6 @@ public class StateMachine extends StateMachineBase {
                 System.out.println("Couldn't load image at " + i.getImagePath());
             }
             con.add(imgViewer);
-        } else {
-            System.out.println("the path = null" + i.getImagePath());
         }
     }
 
@@ -321,7 +317,6 @@ public class StateMachine extends StateMachineBase {
     private void loadMemories() {
         if (val == null) {
             val = new KeyValue();
-            System.out.println(val);
         }
         if (memories == null) {
             memories = new Memories();
@@ -340,7 +335,6 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
-        System.out.println("post show");
         loadMemories();
         arrMemories = memories.getMemories();
     }

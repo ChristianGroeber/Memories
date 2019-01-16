@@ -62,7 +62,6 @@ public class Note extends Memories{
     }
 
     public Note fromString(String strNote) throws ParseException {
-        System.out.println("strNote = " + strNote);
         StringTokenizer tokenizer = new StringTokenizer(strNote, spl);
         try {
             title = tokenizer.nextToken();

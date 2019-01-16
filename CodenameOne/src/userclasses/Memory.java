@@ -84,7 +84,6 @@ public class Memory extends Memories {
 
         if (images.isEmpty()) {
             str += " ";
-            System.out.println("imgages are empty, inserting empty string");
         } else {
             for (int i = 0; i < images.size(); i++) {
                 if (images.get(i).getImagePath() != null) {
@@ -97,7 +96,6 @@ public class Memory extends Memories {
         if (super.isDev()) {
             Dialog.show("Images", "" + images.size(), "OK", null);
         }
-        System.out.println("Images length: " + images.size());
         str += SPL;
 
         if (notes.isEmpty()) {
@@ -143,7 +141,6 @@ public class Memory extends Memories {
         StringTokenizer tokenizer = new StringTokenizer(images, "\\\\\\");
         while (tokenizer.hasMoreTokens()) {
             String tok = tokenizer.nextToken();
-            System.out.println("tok = " + tok);
             MyImage myImage = new MyImage().fromString(tok);
             this.images.add(myImage);
         }
@@ -153,7 +150,6 @@ public class Memory extends Memories {
         StringTokenizer tokenizer = new StringTokenizer(notes, "\\\\\\");
         while (tokenizer.hasMoreTokens()) {
             String tok = tokenizer.nextToken();
-            System.out.println("tok = " + tok);
             Note note = new Note().fromString(tok);
             this.notes.add(note);
         }

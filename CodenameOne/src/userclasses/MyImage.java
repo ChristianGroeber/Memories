@@ -121,12 +121,10 @@ public class MyImage extends Memories {
                 Dialog.show("Error toString", "Error in image tostring method:\n" + e.toString(), "OK", null);
             }
         }
-        System.out.println("str = " + str);
         return str;
     }
 
     public MyImage fromString(String myImage) throws IOException, ParseException {
-        System.out.println("myImage = " + myImage);
         StringTokenizer tokenizer = new StringTokenizer(myImage, spl);
         imagePath = tokenizer.nextToken();
         try {
