@@ -8,6 +8,7 @@ package userclasses;
 import ch.bbbaden.m335.memories.MyApplication;
 import com.codename1.capture.Capture;
 import com.codename1.components.ImageViewer;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.MultiButton;
 import com.codename1.ext.filechooser.FileChooser;
 import com.codename1.io.FileSystemStorage;
@@ -243,8 +244,12 @@ public class StateMachine extends StateMachineBase {
         con.setHeight(100);
         ArrayList<Component> containers = (ArrayList<Component>) findConMemories().getChildrenAsList(true);
         for (Component i : containers) {
-            if (i.getName().equals(con.getName())) {
-                findConMemories().removeComponent(i);
+            if (i.getUIID().equals("Container")) {
+                System.out.println("i = " + i.getName());
+                System.out.println("con = " + con.getName());
+                if (i.getName().equals(con.getName())) {
+                    findConMemories().removeComponent(i);
+                }
             }
         }
         TextField txtTitle = new TextField(mem.getTitle());
@@ -335,7 +340,9 @@ public class StateMachine extends StateMachineBase {
 
     @Override
     protected void postMain(Form f) {
+//        Dialog ip = new InfiniteProgress().showInfiniteBlocking();
         loadMemories();
+//        ip.dispose();
         arrMemories = memories.getMemories();
     }
 

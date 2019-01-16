@@ -24,6 +24,8 @@
         <val key="Title.bgType" value="6" />
         <val key="Title.margin" value="0.0,0.0,0.0,0.0" />
         <val key="Title.padding" value="2.0,2.0,0.0,18.0" />
+        <gradient key="TitleArea.bgGradient" color1="16494651" color2="16494651" posX="0.5" posY="0.5" radius="1.0" />
+        <val key="TitleArea.bgType" value="6" />
         <val key="TitleArea.margin" value="0.0,0.0,0.0,0.0" />
         <val key="TitleArea.padding" value="0.0,0.0,0.0,0.0" />
         <font key="TitleLabel.font" type="ttf" face="0" style="0" size="0" name="native:MainLight" family="native:MainLight" sizeSettings="1" actualSize="12.0" />

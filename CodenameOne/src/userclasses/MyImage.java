@@ -5,7 +5,6 @@
  */
 package userclasses;
 
-import com.codename1.googlemaps.MapContainer;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
@@ -13,7 +12,6 @@ import com.codename1.location.Location;
 import com.codename1.location.LocationManager;
 import com.codename1.maps.Coord;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Image;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -24,6 +22,7 @@ import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.StringTokenizer;
+import org.littlemonkey.connectivity.Connectivity;
 
 /**
  *
@@ -53,21 +52,29 @@ public class MyImage extends Memories {
 
     public static String getFormattedAddress(Coord coord) {
         String ret = "";
-        try {
-            ConnectionRequest request = new ConnectionRequest("https://maps.googleapis.com/maps/api/geocode/json", false);
-            request.addArgument("key", apiKey);
-            request.addArgument("latlng", coord.getLatitude() + "," + coord.getLongitude());
+        if (Connectivity.isConnected()) {
+            try {
+                ConnectionRequest request = null;
+                Map<String, Object> response = null;
+                request = new ConnectionRequest("https://maps.googleapis.com/maps/api/geocode/json", false);
+                request.addArgument("key", apiKey);
+                request.addArgument("latlng", coord.getLatitude() + "," + coord.getLongitude());
 
-            NetworkManager.getInstance().addToQueueAndWait(request);
-            Map<String, Object> response = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
-            if (response.get("results") != null) {
-                ArrayList results = (ArrayList) response.get("results");
-                if (results.size() > 0) {
-                    ret = (String) ((LinkedHashMap) results.get(0)).get("formatted_address");
+                NetworkManager.getInstance().addToQueueAndWait(request);
+                response = new JSONParser().parseJSON(new InputStreamReader(new ByteArrayInputStream(request.getResponseData()), "UTF-8"));
+                if (response.get("results") != null) {
+                    ArrayList results = (ArrayList) response.get("results");
+                    if (results.size() > 0) {
+                        ret = (String) ((LinkedHashMap) results.get(0)).get("formatted_address");
+                    }
                 }
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                System.out.println("e = " + e);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } else {
+            Dialog.show("Error while getting Location", "I couldn't connect to Google Maps. Make sure you have a working Internet connection.", "OK", null);
         }
         return ret;
     }
