@@ -115,7 +115,7 @@ public class MyImage extends Memories {
             str += sd.format(date) + spl;
             str += gps + spl;
             str += location + spl;
-            str += temperature;
+            str += temperature + spl;
         } catch (Exception e) {
             if (super.isDev()) {
                 Dialog.show("Error toString", "Error in image tostring method:\n" + e.toString(), "OK", null);
@@ -128,7 +128,7 @@ public class MyImage extends Memories {
     public MyImage fromString(String myImage) throws IOException, ParseException {
         System.out.println("myImage = " + myImage);
         StringTokenizer tokenizer = new StringTokenizer(myImage, spl);
-        String imagePath = tokenizer.nextToken();
+        imagePath = tokenizer.nextToken();
         try {
             String strDate = tokenizer.nextToken();
             gps = tokenizer.nextToken();

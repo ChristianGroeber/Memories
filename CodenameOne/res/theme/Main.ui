@@ -11,8 +11,6 @@
       </component>
       <component type="Button" name="btnLoadMemories" cloudDestinationProperty="btnLoadMemories" text="LOAD MEMORIES" >
       </component>
-      <component type="ImageViewer" name="ImageViewer1" cloudDestinationProperty="ImageViewer1" >
-      </component>
     </component>
     <component type="Container" name="newMemory" tabTitle="Today's Memory" cloudDestinationProperty="newMemory" layout="BoxLayout" boxLayoutAxis="Y" >
       <component type="Button" name="btnLaunchCamera" cloudDestinationProperty="btnLaunchCamera" text="OPEN CAMERA" >

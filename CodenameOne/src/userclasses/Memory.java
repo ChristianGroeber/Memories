@@ -24,6 +24,9 @@ public class Memory extends Memories {
     private Date date = new Date();
     private String title = " ";
     private String path;
+    private ArrayList<MyImage> savedImages = new ArrayList<>();
+    private ArrayList<Note> savedNotes = new ArrayList<>();
+    private ArrayList<String> savedInfo = new ArrayList<>();
 
     public Memory() {
 
@@ -71,87 +74,70 @@ public class Memory extends Memories {
 
     private final SimpleDateFormat sd = new SimpleDateFormat("dd.MM.yyyy");
     private final SimpleDateFormat pathName = new SimpleDateFormat("dd-MM-yyyy");
+    private final String SPL = "^^";
 
     @Override
     public String toString() {
         String str = "";
         path = pathName.format(date);
-        str += sd.format(date) + "///";
+        str += sd.format(date) + SPL;
+
         if (images.isEmpty()) {
             str += " ";
+            System.out.println("imgages are empty, inserting empty string");
+        } else {
+            for (int i = 0; i < images.size(); i++) {
+                if (images.get(i).getImagePath() != null) {
+                    str += images.get(i).toString() + "\\\\\\";
+                } else {
+                    images.remove(i);
+                }
+            }
         }
         if (super.isDev()) {
             Dialog.show("Images", "" + images.size(), "OK", null);
         }
-        for (MyImage i : images) {
-            str += i.toString() + "\\\\\\";
-        }
-        str += "///";
+        System.out.println("Images length: " + images.size());
+        str += SPL;
 
-        for (Note i : notes) {
-            str += i.toString() + "\\\\\\";
-        }
         if (notes.isEmpty()) {
-            str += " ";
+            str += " " + "\\\\\\";
+        } else {
+            for (Note i : notes) {
+                str += i.toString() + "\\\\\\";
+            }
         }
-        str += "///" + title + "///";
+
+        if (title.equals(" ")) {
+            title = sd.format(date);
+        }
+        str += SPL + title + SPL;
         return str;
     }
 
-    public ArrayList<ArrayList<ArrayList<String>>> toArray() {
-        ArrayList<ArrayList<ArrayList<String>>> ret = new ArrayList<>();
-        ArrayList<ArrayList<String>> arrInfo = new ArrayList<>();
-        ArrayList<String> temp = new ArrayList<>();
-        temp.add(sd.format(date));       //date
-        temp.add(title);
-        arrInfo.add(temp);
-        ret.add(arrInfo);
-        ArrayList<ArrayList<String>> arrImages = new ArrayList<>();
-        for (MyImage i : images) {
-            arrImages.add(i.toArray());
-        }
-        ret.add(arrImages);
-        ArrayList<ArrayList<String>> arrNotes = new ArrayList<>();
-        for (Note i : notes) {
-            arrNotes.add(i.toArray());
-        }
-        ret.add(arrNotes);
-
-        return ret;
-    }
-
-    public void fromArray(ArrayList<ArrayList<ArrayList<String>>> arr) throws com.codename1.l10n.ParseException {
-        ArrayList<ArrayList<String>> info = arr.get(0);
-        ArrayList<String> temp = info.get(0);
-        date = sd.parse(temp.get(0));
-        title = temp.get(1);
-        ArrayList<ArrayList<String>> img = arr.get(1);
-        for (ArrayList<String> i : img) {
-            MyImage y = new MyImage(i.get(0), i.get(1), i.get(2));
-            images.add(y);
-        }
-        ArrayList<ArrayList<String>> note = arr.get(2);
-        for (ArrayList<String> i : note) {
-            Note y = new Note(sd.parse(i.get(0)), i.get(1), i.get(2));
-            notes.add(y);
-        }
-    }
-
     public void fromString(String strMemory) throws IOException, ParseException, com.codename1.l10n.ParseException {
-        title = strMemory;
-//        StringTokenizer tokenizer = new StringTokenizer(strMemory, "///");
-//        date = sd.parse(tokenizer.nextToken());
-//        String strImages = tokenizer.nextToken();
-//        String strNotes = tokenizer.nextToken();
-//        try {
-//            title = tokenizer.nextToken();
-//        } catch (Exception e) {
-//            if(super.isDev()){
-//                Dialog.show("Error with tokenizer", "Error " + e.toString(), "OK", null);
-//            }
-//        }
-//        createImages(strImages);
-//        createNotes(strNotes);
+//        title = strMemory;
+        System.out.println("this is the string i have to take a memory out of: " + strMemory);
+        StringTokenizer tokenizer = null;
+        try {
+            tokenizer = new StringTokenizer(strMemory, SPL);
+            date = sd.parse(tokenizer.nextToken());
+            String strImages = tokenizer.nextToken();
+            String strNotes = tokenizer.nextToken();
+            try {
+                title = tokenizer.nextToken();
+            } catch (Exception e) {
+                //tokenizer.nextToken();
+                if (super.isDev()) {
+                    Dialog.show("Error with tokenizer", "Error " + e.toString(), "OK", null);
+                }
+            }
+            Dialog.show("This is what the Memory generated", sd.format(date) + "\n" + strImages + "\n" + strNotes, "OK", null);
+            createImages(strImages);
+            createNotes(strNotes);
+        } catch (Exception e) {
+            System.out.println("Couldn't split Strings with " + SPL);
+        }
     }
 
     private void createImages(String images) throws IOException, ParseException {
@@ -172,5 +158,32 @@ public class Memory extends Memories {
             Note note = new Note().fromString(tok);
             this.notes.add(note);
         }
+    }
+
+    public boolean isSaved(String info) {
+        for (String i : savedInfo) {
+            if (i.equals(info)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSaved(MyImage img) {
+        for (MyImage i : savedImages) {
+            if (i.equals(img)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isSaved(Note not) {
+        for (Note i : savedNotes) {
+            if (i.equals(not)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
