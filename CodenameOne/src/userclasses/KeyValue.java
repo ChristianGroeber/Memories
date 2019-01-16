@@ -39,9 +39,9 @@ public class KeyValue extends Memories {
             }
             map.put(i.getPath(), i.toString());
         }
-//        if(super.isDev()){
-        Dialog.show("I'm now saving", map.toString(), "OK", null);
-//        }
+        if (super.isDev()) {
+            Dialog.show("I'm now saving", map.toString(), "OK", null);
+        }
         System.out.println("I'm now Saving: " + map.toString());
         Storage.getInstance().writeObject("memories", map);
         ip.dispose();

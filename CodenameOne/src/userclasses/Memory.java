@@ -116,7 +116,6 @@ public class Memory extends Memories {
     }
 
     public void fromString(String strMemory) throws IOException, ParseException, com.codename1.l10n.ParseException {
-//        title = strMemory;
         System.out.println("this is the string i have to take a memory out of: " + strMemory);
         StringTokenizer tokenizer = null;
         try {

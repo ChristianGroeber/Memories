@@ -210,15 +210,6 @@ public class StateMachine extends StateMachineBase implements Externalizable {
                 }
             }
         }
-//        Container container = findConMemories();
-//        for (Memory i : memories.getMemories()) {
-//            for (Note x : i.getNotes()) {
-//                Label title = new Label(x.getTitle());
-//                Label text = new Label(x.getText());
-//                container.add(title);
-//                container.add(text);
-//            }
-//        }
     }
 
     @Override
@@ -245,36 +236,6 @@ public class StateMachine extends StateMachineBase implements Externalizable {
                 Dialog.show("Error whilst saving", e.toString(), "OK", null);
             }
         }
-
-//        Storage.getInstance().writeObject("Saved Data", memories.toHashSet());
-//        String home = FileSystemStorage.getInstance().getAppHomePath();
-//        ArrayList<ArrayList<ArrayList<ArrayList<String>>>> four = new ArrayList<>();
-//        for (Memory i : arrMemories) {
-//            four.add(i.toArray());
-//            OutputStream os = FileSystemStorage.getInstance().openOutputStream(home + i.getPath());
-//            DataOutputStream out = new DataOutputStream(os);
-//            if (four == null) {
-//                out.writeChars("");
-//            } else {
-//                out.writeChars("" + four.size());
-//                for (ArrayList<ArrayList<ArrayList<String>>> y : four.get(0)) {
-//
-//                }
-//                for (int iter = 0; iter < four.size(); iter++) {
-//                    if (four.get(iter) == null) {
-//                        out.writeChars("");
-//                    } else {
-//                        out.writeChars(four.get(iter).size() + "");
-//                        for (int y = 0; y < four.; y++) {
-//                            out.writeInt(myMultiArr[iter][i]);
-//                        }
-//                    }
-//                }
-//            }
-//            out.flush();
-//            out.close();
-//        }
-//        Storage.getInstance().writeObject("Saved Data", four);
     }
 
     private void putMemoryInForm(Memory mem) throws IOException {
@@ -312,7 +273,6 @@ public class StateMachine extends StateMachineBase implements Externalizable {
                 Dialog.show("Error", "Error while putting Memory to Form\nCurrent working form: " + Display.getInstance().getCurrent().getTitle());
             }
         }
-//        save();
     }
 
     private void addImageToForm(MyImage i, Container con) {
@@ -328,7 +288,7 @@ public class StateMachine extends StateMachineBase implements Externalizable {
                 System.out.println("Couldn't load image at " + i.getImagePath());
             }
             con.add(imgViewer);
-        }else{
+        } else {
             System.out.println("the path = null" + i.getImagePath());
         }
     }
@@ -378,40 +338,7 @@ public class StateMachine extends StateMachineBase implements Externalizable {
             System.out.println("ex = " + ex);
         } catch (java.text.ParseException ex) {
             System.out.println("ex = " + ex);
-//        }catch(Exception e){
-//            System.out.println("e = " + e);
-//            ArrayList<String> mem = new ArrayList<>();
-//            try {
-//                memories.setMemories(mem);
-//            } catch (ParseException ex) {
-//            } catch (IOException ex) {
-//            } catch (java.text.ParseException ex) {
-//            }
         }
-//        if (memories == null) {
-//            memories = new Memories();
-//            try {
-//                memories.setMemories((ArrayList<String>) Storage.getInstance().readObject("Saved Data"));
-//            } catch (ClassCastException e) {
-//                System.out.println("caught exception" + e);
-//            } catch (IOException | java.text.ParseException | ParseException ex) {
-//                System.out.println("ex = " + ex);
-//            } catch (NullPointerException e) {
-//                System.out.println("lulerror = " + e);
-//                try {
-//                    memories.setMemories(new ArrayList<String>());
-//                } catch (ParseException ex) {
-//                } catch (IOException ex) {
-//                } catch (java.text.ParseException ex) {
-//                }
-//            }
-//        }
-//        try {
-//            save();
-//        } catch (IOException ex) {
-//            System.out.println("IOException in load");
-//        }
-
     }
 
     @Override
@@ -419,13 +346,6 @@ public class StateMachine extends StateMachineBase implements Externalizable {
         System.out.println("post show");
         loadMemories();
         arrMemories = memories.getMemories();
-//        for (Memory i : arrMemories) {
-//            try {
-//                putMemoryInForm(i);
-//            } catch (NullPointerException e) {
-//                System.out.println("error error error");
-//            }
-//        }
     }
 
     @Override
@@ -484,7 +404,9 @@ public class StateMachine extends StateMachineBase implements Externalizable {
         } else {
             try {
                 findConMemories().removeComponent(delete);
+                findConMemories().removeComponent(save);
             } catch (Exception e) {
+                System.out.println(e.toString());
             }
         }
     }
